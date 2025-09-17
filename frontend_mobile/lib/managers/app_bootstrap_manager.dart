@@ -5,7 +5,7 @@ import 'package:frontend_mobile/managers/localization_manager.dart';
 class AppBootstrapManager extends StateNotifier<InitState> {
   AppBootstrapManager() : super(InitState.INIT);
 
-  static const Duration _minSplashDuration = Duration(seconds: 1);
+  static const Duration _minSplashDuration = Duration(seconds: 3);
 
   Future<void> _executeStateLogic(InitState targetState) async {
     switch (targetState) {
@@ -27,14 +27,14 @@ class AppBootstrapManager extends StateNotifier<InitState> {
     state = InitState.LOCALIZATION;
     await _executeStateLogic(InitState.LOCALIZATION);
 
+    final endTimeRequired = DateTime.now();
+    final elapsedRequired = endTimeRequired.difference(startTime);
+    if (elapsedRequired < _minSplashDuration) {
+      await Future.delayed(_minSplashDuration - elapsedRequired);
+    }
+
     state = InitState.REQUIRE_INITIALIZED_DONE;
     await _executeStateLogic(InitState.REQUIRE_INITIALIZED_DONE);
-
-    final endTime = DateTime.now();
-    final elapsed = endTime.difference(startTime);
-    if (elapsed < _minSplashDuration) {
-      await Future.delayed(_minSplashDuration - elapsed);
-    }
 
     state = InitState.DONE;
     await _executeStateLogic(InitState.DONE);

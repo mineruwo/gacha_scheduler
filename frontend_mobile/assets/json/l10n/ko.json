@@ -1,3 +1,12 @@
 {
-  "app_title": "가챠 스케줄러"
+  "app_title": "가챠 스케줄러",
+  "home_label": "홈",
+  "gacha_label": "가챠",
+  "board_label": "게시판",
+  "my_info_label": "내 정보",
+  "schedule_label": "스케줄표",
+  "schedule_screen_title": "스케줄표 화면",
+  "gacha_screen_title": "가챠 시뮬레이터 화면",
+  "board_screen_title": "공략 게시판 화면",
+  "my_info_screen_title": "내 정보 화면"
 }

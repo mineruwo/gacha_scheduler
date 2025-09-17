@@ -1,3 +1,12 @@
 {
-  "app_title": "Gacha Scheduler"
+  "app_title": "Gacha Scheduler",
+  "home_label": "Home",
+  "gacha_label": "Gacha",
+  "board_label": "Board",
+  "my_info_label": "My Info",
+  "schedule_label": "Schedule",
+  "schedule_screen_title": "Schedule Screen",
+  "gacha_screen_title": "Gacha Simulator Screen",
+  "board_screen_title": "Strategy Board Screen",
+  "my_info_screen_title": "My Info Screen"
 }
