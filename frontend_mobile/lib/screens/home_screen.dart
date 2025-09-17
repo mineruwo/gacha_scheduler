@@ -15,7 +15,7 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text('JSON에서 불러온 앱 제목:'),
+            const Text('앱 제목:'),
             const SizedBox(height: 8),
             Text(
               LocalizationManager.instance.getString('app_title'),
