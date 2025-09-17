@@ -1,0 +1,6 @@
+enum InitState {
+  INIT,
+  LOCALIZATION,
+  REQUIRE_INITIALIZED_DONE, // 이름 변경
+  DONE,
+}
