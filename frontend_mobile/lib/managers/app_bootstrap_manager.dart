@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend_mobile/enums/init_state.dart';
 import 'package:frontend_mobile/managers/localization_manager.dart';
+import 'package:frontend_mobile/managers/user_data_manager.dart';
 
 class AppBootstrapManager extends StateNotifier<InitState> {
   AppBootstrapManager() : super(InitState.INIT);
@@ -14,6 +15,9 @@ class AppBootstrapManager extends StateNotifier<InitState> {
       case InitState.LOCALIZATION:
         await LocalizationManager.instance.init();
         break;
+      case InitState.USER_DATA:
+        await UserDataManager.instance.init();
+        break;
       case InitState.REQUIRE_INITIALIZED_DONE:
         break;
       case InitState.DONE:
@@ -26,6 +30,9 @@ class AppBootstrapManager extends StateNotifier<InitState> {
 
     state = InitState.LOCALIZATION;
     await _executeStateLogic(InitState.LOCALIZATION);
+
+    state = InitState.USER_DATA;
+    await _executeStateLogic(InitState.USER_DATA);
 
     final endTimeRequired = DateTime.now();
     final elapsedRequired = endTimeRequired.difference(startTime);

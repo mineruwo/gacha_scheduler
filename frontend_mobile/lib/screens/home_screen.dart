@@ -63,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
         selectedItemColor: Colors.black,
         unselectedItemColor: Colors.black,
         onTap: _onItemTapped,
-        backgroundColor: Colors.black.withOpacity(0.5),
+        backgroundColor: Colors.grey,
         elevation: 0,
       ),
     );

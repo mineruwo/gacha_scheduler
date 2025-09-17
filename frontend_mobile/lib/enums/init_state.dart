@@ -1,6 +1,7 @@
 enum InitState {
   INIT,
   LOCALIZATION,
+  USER_DATA,
   REQUIRE_INITIALIZED_DONE,
   DONE,
 }
