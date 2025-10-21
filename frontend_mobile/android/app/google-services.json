@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "435890288277",
+    "project_id": "gacha-scheduler",
+    "storage_bucket": "gacha-scheduler.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:435890288277:android:0e34e0bcef15474d5b8d9c",
+        "android_client_info": {
+          "package_name": "com.example.frontend_mobile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARubwPgzL-kNnDVRsAmJ2mhV1QzilrDgk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

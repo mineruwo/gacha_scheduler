@@ -1,34 +1,71 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+*, *::before, *::after { box-sizing: border-box; }
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+:root[color-theme='light'] {
+  --surface-default: #F2F0EE;
+  --btn-default: #FFFFFF;
+  --btn-svg-hover: #FFA500;
+  --text-color: #213547;
+  --primary-color: #646cff;
+  --secondary-color: #535bf2;
+  --header-bg: #f8f8f8;
+  --sidebar-bg: #f0f0f0;
+  --border-color: #eee;
+  --icon-fill-light: #FFFFFF;
+  --icon-fill-dark: #222222;
+  --background-color: #ffffff;
+  --main-padding: 20px; /* Default padding for smaller screens */
+  --logo-box-bg: #e0e0e0; /* Dark gray for light mode */
+}
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+:root[color-theme='dark'] {
+  --surface-default: #17171C;
+  --btn-default: #23232B;
+  --btn-svg-hover: gold;
+  --text-color: rgba(255, 255, 255, 0.87);
+  --primary-color: #646cff;
+  --secondary-color: #535bf2;
+  --header-bg: #1a1a1a;
+  --sidebar-bg: #333333;
+  --border-color: #555;
+  --icon-fill-light: #FFFFFF;
+  --icon-fill-dark: #222222;
+  --background-color: #242424;
+  --main-padding: 20px; /* Default padding for smaller screens */
+  --logo-box-bg: #444444; /* Light gray for dark mode */
+}
+
+/* Apply fill colors to SVG icons based on theme */
+:root[color-theme='light'] .icon30.sun > svg {
+  fill: var(--icon-fill-dark);
+}
+:root[color-theme='light'] .icon30.moon > svg {
+  fill: var(--icon-fill-light);
+}
+:root[color-theme='dark'] .icon30.sun > svg {
+  fill: var(--icon-fill-dark);
+}
+:root[color-theme='dark'] .icon30.moon > svg {
+  fill: var(--icon-fill-light);
 }
 
 a {
   font-weight: 500;
-  color: #646cff;
+  color: var(--primary-color);
   text-decoration: inherit;
 }
 a:hover {
-  color: #535bf2;
+  color: var(--secondary-color);
 }
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  color: var(--text-color);
+  background-color: var(--background-color);
 }
+
+body, h1, h2, h3, p, ul, ol, li { margin: 0; padding: 0; color: var(--text-color); }
 
 h1 {
   font-size: 3.2em;
@@ -42,20 +79,45 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: var(--header-bg);
   cursor: pointer;
   transition: border-color 0.25s;
 }
 button:hover {
-  border-color: #646cff;
+  border-color: var(--primary-color);
 }
+ @keyframes set-animation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(180deg);
+  }
+}
+
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-@media (prefers-color-scheme: light) {
+/* Remove media query as we are using a class for dark mode */
+/* @media (prefers-color-scheme: light) {
   :root {
+  --main-padding: 15px; /* Default padding for smaller screens */
+  /* ... existing root variables ... */
+}
+
+@media (min-width: 768px) {
+  :root[color-theme='light'], :root[color-theme='dark'] {
+    --main-padding: 20px; /* Padding for medium screens */
+  }
+}
+
+@media (min-width: 1024px) {
+  :root[color-theme='light'], :root[color-theme='dark'] {
+    --main-padding: 40px; /* Padding for larger screens */
+  }
+}
     color: #213547;
     background-color: #ffffff;
   }
@@ -65,4 +127,4 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
-}
+} */

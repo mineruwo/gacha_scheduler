@@ -17,6 +17,12 @@ dependencies:
   flutter_riverpod: ^2.5.1
   shared_preferences: ^2.2.3
   cached_network_image: ^3.3.1
+  firebase_core: ^2.24.0
+  firebase_auth: ^4.15.0
+  cloud_firestore: ^4.13.0
+  firebase_crashlytics: ^3.5.1
+  firebase_analytics: ^10.10.0
+  firebase_messaging: ^14.9.4
 
 dev_dependencies:
   flutter_test:

@@ -1,40 +1,42 @@
-import { useState, useEffect } from 'react';
-import reactLogo from './assets/react.svg';
-import './App.css';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import MainLayout from './layouts/MainLayout';
+import HomePage from './pages/HomePage';
+import SchedulerPage from './pages/SchedulerPage';
+import SimulatorPage from './pages/SimulatorPage';
+import StrategyBoardPage from './pages/StrategyBoardPage';
+import HistoryPage from './pages/HistoryPage';
+import LoginPage from './pages/LoginPage';
+import GameManagementPage from './pages/GameManagementPage';
+import NoticeCreationPage from './pages/NoticeCreationPage';
+import ChannelManagementPage from './pages/ChannelManagementPage';
+import UserManagementPage from './pages/UserManagementPage';
+import UserProfilePage from './pages/UserProfilePage';
+import useTheme from './hooks/useTheme';
+import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
-  const [message, setMessage] = useState('');
-
-  useEffect(() => {
-    // Fetch the message from the Spring Boot backend
-    fetch('http://localhost:8080/api/hello')
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.text(); // The response is plain text
-      })
-      .then(text => setMessage(text))
-      .catch(error => {
-        console.error('There was a problem with the fetch operation:', error);
-        setMessage('Failed to load message from backend.');
-      });
-  }, []); // The empty dependency array ensures this effect runs only once
+  const [theme, toggleTheme] = useTheme();
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={reactLogo} className="logo" alt="logo" />
-        <h1>React + Spring Boot Demo</h1>
-        <p>
-          Message from backend:
-        </p>
-        {/* Display the message from the backend */}
-        <p className="backend-message">
-          {message || 'Loading...'}
-        </p>
-      </header>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<MainLayout theme={theme} toggleTheme={toggleTheme} />}>
+          <Route index element={<HomePage />} />
+          <Route path="scheduler" element={<ProtectedRoute><SchedulerPage /></ProtectedRoute>} />
+          <Route path="simulator" element={<SimulatorPage />} />
+          <Route path="board" element={<StrategyBoardPage />} />
+          <Route path="history" element={<ProtectedRoute><HistoryPage /></ProtectedRoute>} />
+          <Route path="login" element={<LoginPage />} />
+          <Route path="admin/game" element={<ProtectedRoute><GameManagementPage /></ProtectedRoute>} />
+          <Route path="admin/notice" element={<ProtectedRoute><NoticeCreationPage /></ProtectedRoute>} />
+          <Route path="admin/channel" element={<ProtectedRoute><ChannelManagementPage /></ProtectedRoute>} />
+          <Route path="admin/users" element={<ProtectedRoute><UserManagementPage /></ProtectedRoute>} />
+          <Route path="profile" element={<ProtectedRoute><UserProfilePage /></ProtectedRoute>} />
+          {/* Add more routes here as needed */}
+        </Route>
+      </Routes>
+    </Router>
   );
 }
 
