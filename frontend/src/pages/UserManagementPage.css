@@ -1,0 +1,61 @@
+.user-mgmt {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.user-mgmt h1 {
+  font-size: 1.8em;
+}
+
+.user-mgmt-error {
+  color: #d64545;
+}
+
+.user-mgmt-empty {
+  opacity: 0.6;
+}
+
+.user-mgmt-search {
+  display: flex;
+  gap: 8px;
+}
+
+.user-mgmt-search input {
+  flex: 1;
+  max-width: 320px;
+  padding: 8px 10px;
+  font-family: inherit;
+  font-size: 1em;
+  color: var(--text-color);
+  background: var(--btn-default);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+}
+
+.user-mgmt table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9em;
+}
+
+.user-mgmt th,
+.user-mgmt td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border-color);
+  text-align: left;
+}
+
+.user-mgmt select {
+  padding: 6px 8px;
+  font-family: inherit;
+  color: var(--text-color);
+  background: var(--btn-default);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+}
+
+.user-mgmt .row-actions button {
+  padding: 4px 10px;
+  font-size: 0.85em;
+}

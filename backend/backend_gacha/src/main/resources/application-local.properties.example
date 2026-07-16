@@ -1,0 +1,19 @@
+# 로컬 개발용 환경변수 override 예시 파일
+# 사용법: 이 파일을 같은 폴더에 application-local.properties 로 복사한 뒤 실제 값을 채운다.
+# application-local.properties 는 .gitignore 대상이므로 커밋되지 않는다.
+
+DB_URL=jdbc:postgresql://<host>:5432/<db-name>
+DB_USERNAME=<username>
+DB_PASSWORD=<password>
+
+# 프론트엔드(VITE_GOOGLE_CLIENT_ID)와 동일한 값. ID 토큰 audience 검증에 사용.
+GOOGLE_CLIENT_ID=<google-oauth-client-id>
+
+# HS256 서명 키. 32바이트(256비트) 이상의 무작위 문자열 사용 권장.
+# 생성 예: openssl rand -base64 48
+JWT_SECRET=<random-secret-at-least-32-bytes>
+
+# (선택) CORS 허용 origin, 콤마로 구분. 지정하지 않으면
+# http://localhost:5173,https://localhost 가 기본값으로 사용된다.
+# 웹을 실제 도메인에 배포하거나 Capacitor 앱 셸 origin이 늘어나면 여기에 추가한다.
+# cors.allowed-origins=http://localhost:5173,https://localhost,https://your-deployed-domain.example

@@ -1,0 +1,66 @@
+.profile-page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 480px;
+}
+
+.profile-page h1 {
+  font-size: 1.8em;
+}
+
+.profile-error {
+  color: #d64545;
+}
+
+.profile-view {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.profile-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.profile-hint {
+  font-size: 0.8em;
+  opacity: 0.6;
+}
+
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.profile-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.9em;
+}
+
+.profile-form input {
+  padding: 8px 10px;
+  font-family: inherit;
+  font-size: 1em;
+  color: var(--text-color);
+  background: var(--btn-default);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+}
+
+.profile-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.profile-actions .submit {
+  background: var(--primary-color);
+  color: #fff;
+}

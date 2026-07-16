@@ -21,7 +21,7 @@ function LoginPage() {
       if (response.ok) {
         const userData = await response.json();
         console.log('Backend response:', userData);
-        login(userData, 'dummy-jwt-token'); // Replace 'dummy-jwt-token' with actual JWT from backend
+        login(userData, userData.token);
         navigate('/');
       } else {
         console.error('Backend authentication failed:', response.statusText);

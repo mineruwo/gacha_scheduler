@@ -1,0 +1,121 @@
+.simulator-page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.simulator-page h1 {
+  font-size: 1.8em;
+}
+
+.simulator-banner-select {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 1em;
+  font-family: inherit;
+  color: var(--text-color);
+  background: var(--btn-default);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+}
+
+.simulator-pity {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.simulator-pity-track {
+  height: 10px;
+  border-radius: 5px;
+  background: var(--sidebar-bg);
+  overflow: hidden;
+}
+
+.simulator-pity-fill {
+  height: 100%;
+  background: var(--primary-color);
+  transition: width 0.3s ease;
+}
+
+.simulator-results {
+  min-height: 220px;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 16px;
+  background: var(--surface-default);
+}
+
+.simulator-results-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 188px;
+  opacity: 0.6;
+}
+
+.simulator-result-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+}
+
+@media (max-width: 480px) {
+  .simulator-result-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.simulator-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 10px 6px;
+  border-radius: 8px;
+  border: 2px solid var(--rarity-color, var(--border-color));
+  background: color-mix(in srgb, var(--rarity-color, transparent) 10%, transparent);
+  text-align: center;
+}
+
+.simulator-card .simulator-card-name {
+  font-size: 0.8em;
+  line-height: 1.2;
+}
+
+.simulator-card .simulator-card-rarity {
+  font-size: 0.8em;
+  font-weight: bold;
+  color: var(--rarity-color);
+}
+
+.simulator-card.rarity-top { --rarity-color: #d4a017; }
+.simulator-card.rarity-high { --rarity-color: #8e5cd9; }
+.simulator-card.rarity-mid { --rarity-color: #3b82d6; }
+.simulator-card.rarity-low { --rarity-color: #7a8a99; }
+
+.simulator-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.simulator-actions button {
+  flex: 1;
+}
+
+.simulator-actions .pull-ten {
+  background: var(--primary-color);
+  color: #fff;
+}
+
+.simulator-actions button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.simulator-error {
+  color: #d64545;
+}

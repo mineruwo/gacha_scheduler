@@ -1,5 +1,6 @@
 package com.gacha.gachascheduler.controller;
 
+import com.gacha.gachascheduler.dto.GameMapper;
 import com.gacha.gachascheduler.dto.GameRequestDto;
 import com.gacha.gachascheduler.dto.GameResponseDto;
 import com.gacha.gachascheduler.entity.GameEntity;
@@ -35,7 +36,7 @@ public class GameController {
         gameEntity.setCanTrackCurrency(gameRequestDto.getCanTrackCurrency());
 
         GameEntity createdGame = gameService.createGame(gameEntity);
-        return new ResponseEntity<>(convertToDto(createdGame), HttpStatus.CREATED);
+        return new ResponseEntity<>(GameMapper.toDto(createdGame), HttpStatus.CREATED);
     }
 
     @PreAuthorize("hasAnyRole('SUB_ADMIN', 'MAIN_ADMIN')")
@@ -43,7 +44,7 @@ public class GameController {
     public ResponseEntity<List<GameResponseDto>> getAllGames() {
         List<GameEntity> games = gameService.getAllGames();
         List<GameResponseDto> gameDtos = games.stream()
-                .map(this::convertToDto)
+                .map(GameMapper::toDto)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(gameDtos);
     }
@@ -52,7 +53,7 @@ public class GameController {
     @GetMapping("/{id}")
     public ResponseEntity<GameResponseDto> getGameById(@PathVariable Long id) {
         return gameService.getGameById(id)
-                .map(this::convertToDto)
+                .map(GameMapper::toDto)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -71,7 +72,7 @@ public class GameController {
         gameEntity.setCanTrackCurrency(gameRequestDto.getCanTrackCurrency());
 
         GameEntity updatedGame = gameService.updateGame(id, gameEntity);
-        return ResponseEntity.ok(convertToDto(updatedGame));
+        return ResponseEntity.ok(GameMapper.toDto(updatedGame));
     }
 
     @PreAuthorize("hasAnyRole('SUB_ADMIN', 'MAIN_ADMIN')")
@@ -79,22 +80,5 @@ public class GameController {
     public ResponseEntity<Void> deleteGame(@PathVariable Long id) {
         gameService.deleteGame(id);
         return ResponseEntity.noContent().build();
-    }
-
-    private GameResponseDto convertToDto(GameEntity gameEntity) {
-        GameResponseDto dto = new GameResponseDto();
-        dto.setId(gameEntity.getId());
-        dto.setTitle(gameEntity.getTitle());
-        dto.setGameCode(gameEntity.getGameCode());
-        dto.setHasGacha(gameEntity.getHasGacha());
-        dto.setHasPass(gameEntity.getHasPass());
-        dto.setCanRecord(gameEntity.getCanRecord());
-        dto.setIsService(gameEntity.getIsService());
-        dto.setComment(gameEntity.getComment());
-        dto.setCanManageSchedule(gameEntity.getCanManageSchedule());
-        dto.setCanTrackCurrency(gameEntity.getCanTrackCurrency());
-        dto.setCreatedAt(gameEntity.getCreatedAt());
-        dto.setUpdatedAt(gameEntity.getUpdatedAt());
-        return dto;
     }
 }

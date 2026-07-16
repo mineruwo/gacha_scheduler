@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -62,5 +63,30 @@ public class UserService {
             user.setDeletedAt(OffsetDateTime.now());
             userRepository.save(user);
         });
+    }
+
+    @Transactional(readOnly = true)
+    public List<UserEntity> searchUsers(String query) {
+        if (query == null || query.isBlank()) {
+            return userRepository.findAll();
+        }
+        return userRepository.findByEmailContainingIgnoreCaseOrNameContainingIgnoreCase(query, query);
+    }
+
+    @Transactional
+    public UserEntity updateRole(Long userId, Role role) {
+        UserEntity user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found with id " + userId));
+        user.setRole(role);
+        return userRepository.save(user);
+    }
+
+    @Transactional
+    public UserEntity updateProfile(Long userId, String name, String profilePictureUrl) {
+        UserEntity user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found with id " + userId));
+        user.setName(name);
+        user.setProfilePictureUrl(profilePictureUrl);
+        return userRepository.save(user);
     }
 }

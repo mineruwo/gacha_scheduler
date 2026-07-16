@@ -1,0 +1,70 @@
+.history-page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.history-page h1 {
+  font-size: 1.8em;
+}
+
+.history-hint {
+  font-size: 0.85em;
+  opacity: 0.7;
+}
+
+.history-error {
+  color: #d64545;
+}
+
+.history-empty {
+  opacity: 0.6;
+}
+
+.history-tabs {
+  display: flex;
+  gap: 8px;
+}
+
+.history-tabs button {
+  background: var(--btn-default);
+  border: 1px solid var(--border-color);
+}
+
+.history-tabs button.active {
+  background: var(--primary-color);
+  color: #fff;
+  border-color: var(--primary-color);
+}
+
+.history-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.history-list li {
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+  padding: 10px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--surface-default);
+}
+
+.history-item-channel {
+  font-size: 0.8em;
+  opacity: 0.7;
+}
+
+.history-item-title {
+  flex: 1;
+}
+
+.history-item-date {
+  font-size: 0.8em;
+  opacity: 0.6;
+}

@@ -7,7 +7,7 @@ function Header({ toggleTheme, theme, toggleSidebar, isMobile }) {
   const { isAuthenticated, user, logout } = useAuth();
 
   return (
-    <header style={{ padding: '10px 20px', background: 'var(--header-bg)', borderBottom: '1px solid var(--border-color)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: 'var(--text-color)' }}>
+    <header style={{ padding: 'calc(10px + env(safe-area-inset-top, 0px)) calc(20px + env(safe-area-inset-right, 0px)) 10px calc(20px + env(safe-area-inset-left, 0px))', background: 'var(--header-bg)', borderBottom: '1px solid var(--border-color)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: 'var(--text-color)' }}>
       <div style={{ display: 'flex', alignItems: 'center' }}>
         {!isMobile && (
           <button onClick={toggleSidebar} style={{ background: 'none', border: 'none', cursor: 'pointer', marginRight: '15px', padding: '5px' }}>

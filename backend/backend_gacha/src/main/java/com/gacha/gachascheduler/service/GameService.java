@@ -30,6 +30,16 @@ public class GameService {
         return gameRepository.findById(id);
     }
 
+    @Transactional(readOnly = true)
+    public Optional<GameEntity> getGameByCode(String gameCode) {
+        return gameRepository.findByGameCode(gameCode);
+    }
+
+    @Transactional(readOnly = true)
+    public List<GameEntity> getGamesByCode(List<String> gameCodes) {
+        return gameRepository.findByGameCodeIn(gameCodes);
+    }
+
     @Transactional
     public GameEntity updateGame(Long id, GameEntity updatedGame) {
         return gameRepository.findById(id).map(game -> {

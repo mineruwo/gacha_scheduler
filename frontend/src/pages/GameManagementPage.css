@@ -1,0 +1,109 @@
+.game-mgmt {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.game-mgmt h1 {
+  font-size: 1.8em;
+}
+
+.game-mgmt h2 {
+  font-size: 1.3em;
+}
+
+.game-mgmt section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  background: var(--surface-default);
+}
+
+.game-mgmt table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9em;
+}
+
+.game-mgmt th,
+.game-mgmt td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border-color);
+  text-align: left;
+}
+
+.game-mgmt-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+  align-items: end;
+}
+
+.game-mgmt-form .full-width {
+  grid-column: 1 / -1;
+}
+
+.game-mgmt-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.85em;
+}
+
+.game-mgmt-form label.checkbox {
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+}
+
+.game-mgmt-form input[type='text'],
+.game-mgmt-form input[type='datetime-local'],
+.game-mgmt-form select,
+.game-mgmt-form textarea {
+  padding: 8px 10px;
+  font-family: inherit;
+  font-size: 1em;
+  color: var(--text-color);
+  background: var(--btn-default);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+}
+
+.game-mgmt-checkboxes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  grid-column: 1 / -1;
+}
+
+.game-mgmt-actions {
+  display: flex;
+  gap: 8px;
+  grid-column: 1 / -1;
+}
+
+.game-mgmt-actions .submit {
+  background: var(--primary-color);
+  color: #fff;
+}
+
+.game-mgmt .row-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.game-mgmt .row-actions button {
+  padding: 4px 10px;
+  font-size: 0.85em;
+}
+
+.game-mgmt-error {
+  color: #d64545;
+}
+
+.game-mgmt-empty {
+  opacity: 0.6;
+}

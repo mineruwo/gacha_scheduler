@@ -36,7 +36,7 @@ function MainLayout({ theme, toggleTheme }) {
       <Header toggleTheme={toggleTheme} theme={theme} toggleSidebar={toggleSidebar} isMobile={isMobile} />
       <div style={{ display: 'flex', flex: 1, background: 'var(--background-color)', flexDirection: isMobile ? 'column' : 'row' }}>
         <Sidebar isOpen={isSidebarOpen} isMobile={isMobile} />
-        <main style={{ flex: '1 1 0%', width: isMobile ? '100%' : 'auto', minWidth: isMobile ? 'auto' : '300px', padding: 'var(--main-padding)', background: 'var(--background-color)', color: 'var(--text-color)', overflowX: 'auto', boxSizing: 'border-box' }}>
+        <main style={{ flex: '1 1 0%', width: isMobile ? '100%' : 'auto', minWidth: isMobile ? 'auto' : '300px', padding: 'var(--main-padding)', paddingBottom: 'calc(var(--main-padding) + env(safe-area-inset-bottom, 0px))', paddingLeft: 'calc(var(--main-padding) + env(safe-area-inset-left, 0px))', paddingRight: 'calc(var(--main-padding) + env(safe-area-inset-right, 0px))', background: 'var(--background-color)', color: 'var(--text-color)', overflowX: 'auto', boxSizing: 'border-box' }}>
           <Outlet />
         </main>
       </div>

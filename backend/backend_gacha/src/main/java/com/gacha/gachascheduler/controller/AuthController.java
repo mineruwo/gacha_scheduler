@@ -2,6 +2,7 @@ package com.gacha.gachascheduler.controller;
 
 import com.gacha.gachascheduler.dto.UserResponseDto;
 import com.gacha.gachascheduler.entity.UserEntity;
+import com.gacha.gachascheduler.security.JwtProvider;
 import com.gacha.gachascheduler.service.UserService;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
@@ -27,6 +28,7 @@ import java.util.Map;
 public class AuthController {
 
     private final UserService userService;
+    private final JwtProvider jwtProvider;
 
     @Value("${GOOGLE_CLIENT_ID}")
     private String googleClientId;
@@ -69,6 +71,7 @@ public class AuthController {
             userResponseDto.setRole(userEntity.getRole().name());
             userResponseDto.setCreatedAt(userEntity.getCreatedAt());
             userResponseDto.setUpdatedAt(userEntity.getUpdatedAt());
+            userResponseDto.setToken(jwtProvider.createToken(userEntity.getId(), userEntity.getRole()));
 
             return ResponseEntity.ok(userResponseDto);
         } else {

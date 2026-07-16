@@ -1,78 +1,72 @@
 package com.gacha.gachascheduler.config;
 
-import com.gacha.gachascheduler.entity.UserEntity;
-import com.gacha.gachascheduler.service.UserService;
+import com.gacha.gachascheduler.security.JwtAuthenticationFilter;
+import jakarta.servlet.http.HttpServletResponse;
+import java.util.Arrays;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
-import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
-import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
-import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Map;
-
+/**
+ * 프론트엔드가 자체 Google Sign-In으로 얻은 ID 토큰을 {@code POST /api/auth/google}로 보내면
+ * 백엔드가 검증 후 자체 JWT를 발급하는 stateless 방식만 사용한다.
+ * (Spring의 서버 리다이렉트형 oauth2Login은 프론트가 사용하지 않아 제거함)
+ */
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final UserService userService;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+
+    // 웹 dev 서버(5173)와 Capacitor 하이브리드 앱 셸의 WebView origin(https://localhost)을 기본 허용.
+    // 실제 배포 origin이 정해지면 CORS_ALLOWED_ORIGINS 환경변수로 콤마 구분 목록을 전달한다.
+    @Value("#{'${cors.allowed-origins:http://localhost:5173,https://localhost}'.split(',')}")
+    private List<String> allowedOrigins;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable()) // Disable CSRF for simplicity in API, consider enabling for production
-            .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Enable CORS
+            .csrf(csrf -> csrf.disable())
+            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+            .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/login**", "/oauth2/**", "/error", "/api/auth/google").permitAll() // Allow access to login, OAuth2, and our custom Google auth endpoint
-                .anyRequest().authenticated() // All other requests require authentication
+                .requestMatchers("/api/auth/google", "/api/hello", "/error").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/games/**", "/api/schedules/**", "/api/banners/**",
+                        "/api/channels/**", "/api/posts/**").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/banners/*/pull").permitAll()
+                .anyRequest().authenticated()
             )
-            .oauth2Login(oauth2 -> oauth2
-                .userInfoEndpoint(userInfo -> userInfo
-                    .userService(this.oauth2UserService()) // Custom OAuth2 user service
-                )
-                .defaultSuccessUrl("http://localhost:5173/", true) // Redirect to frontend on successful login
-                .failureUrl("/loginFailure") // Redirect on login failure
-            );
+            .exceptionHandling(eh -> eh
+                .authenticationEntryPoint((req, res, ex) -> res.sendError(HttpServletResponse.SC_UNAUTHORIZED))
+                .accessDeniedHandler((req, res, ex) -> res.sendError(HttpServletResponse.SC_FORBIDDEN))
+            )
+            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173")); // Allow your frontend origin
+        configuration.setAllowedOrigins(allowedOrigins);
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "X-Requested-With", "Accept"));
         configuration.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
-    }
-
-    @Bean
-    public OAuth2UserService<OAuth2UserRequest, OAuth2User> oauth2UserService() {
-        DefaultOAuth2UserService delegate = new DefaultOAuth2UserService();
-        return (userRequest) -> {
-            OAuth2User oauth2User = delegate.loadUser(userRequest);
-
-            // Extract user attributes from Google
-            String email = oauth2User.getAttribute("email");
-            String name = oauth2User.getAttribute("name");
-            String picture = oauth2User.getAttribute("picture");
-            String googleId = oauth2User.getName(); // Google's sub claim is usually used as name
-
-            // Find or create user in our database
-            UserEntity user = userService.findOrCreateUser(email, name, picture, googleId);
-            return new CustomOAuth2User(user, oauth2User.getAttributes());
-        };
     }
 }

@@ -21,14 +21,6 @@ public class UserGamePreferenceEntity {
     @Column(name = "game_code")
     private String gameCode;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", insertable = false, updatable = false)
-    private UserEntity user;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "game_code", referencedColumnName = "game_code", insertable = false, updatable = false)
-    private GameEntity game;
-
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
     private OffsetDateTime createdAt;

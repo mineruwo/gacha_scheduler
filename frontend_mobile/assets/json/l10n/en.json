@@ -7,6 +7,15 @@
   "schedule_label": "Schedule",
   "schedule_screen_title": "Schedule Screen",
   "gacha_screen_title": "Gacha Simulator Screen",
+  "gacha_select_banner": "Select Banner",
+  "gacha_pity_label": "Pity Count",
+  "gacha_pull_one": "Pull x1",
+  "gacha_pull_ten": "Pull x10",
+  "gacha_no_results": "Pull results will appear here",
+  "gacha_no_banners": "No active banners",
+  "gacha_load_error": "Failed to load banners",
+  "gacha_pull_error": "Pull failed. Please try again later",
+  "gacha_retry": "Retry",
   "board_screen_title": "Strategy Board Screen",
   "my_info_screen_title": "My Info Screen"
 }

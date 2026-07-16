@@ -7,6 +7,15 @@
   "schedule_label": "스케줄표",
   "schedule_screen_title": "스케줄표 화면",
   "gacha_screen_title": "가챠 시뮬레이터 화면",
+  "gacha_select_banner": "배너 선택",
+  "gacha_pity_label": "천장 카운트",
+  "gacha_pull_one": "1회 뽑기",
+  "gacha_pull_ten": "10연 뽑기",
+  "gacha_no_results": "뽑기 결과가 여기에 표시됩니다",
+  "gacha_no_banners": "진행 중인 배너가 없습니다",
+  "gacha_load_error": "배너 목록을 불러오지 못했습니다",
+  "gacha_pull_error": "뽑기에 실패했습니다. 잠시 후 다시 시도해주세요",
+  "gacha_retry": "다시 시도",
   "board_screen_title": "공략 게시판 화면",
   "my_info_screen_title": "내 정보 화면"
 }

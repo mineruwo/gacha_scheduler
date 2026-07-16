@@ -23,7 +23,8 @@ function App() {
       <Routes>
         <Route path="/" element={<MainLayout theme={theme} toggleTheme={toggleTheme} />}>
           <Route index element={<HomePage />} />
-          <Route path="scheduler" element={<ProtectedRoute><SchedulerPage /></ProtectedRoute>} />
+          {/* 스케줄러는 비로그인 열람 허용 (개인화 필터만 로그인 필요) — docs/plans/03-scheduler.md DoD */}
+          <Route path="scheduler" element={<SchedulerPage />} />
           <Route path="simulator" element={<SimulatorPage />} />
           <Route path="board" element={<StrategyBoardPage />} />
           <Route path="history" element={<ProtectedRoute><HistoryPage /></ProtectedRoute>} />

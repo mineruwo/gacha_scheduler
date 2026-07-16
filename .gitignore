@@ -1,0 +1,8 @@
+# Local secrets / environment overrides (never commit real values)
+**/application-local.properties
+.env
+.env.*
+!.env.example
+!**/*.example
+
+.DS_Store

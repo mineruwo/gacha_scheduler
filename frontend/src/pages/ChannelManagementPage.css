@@ -1,0 +1,94 @@
+.channel-mgmt {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.channel-mgmt h1 {
+  font-size: 1.8em;
+}
+
+.channel-mgmt h2 {
+  font-size: 1.3em;
+}
+
+.channel-mgmt section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  background: var(--surface-default);
+}
+
+.channel-mgmt table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9em;
+}
+
+.channel-mgmt th,
+.channel-mgmt td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border-color);
+  text-align: left;
+}
+
+.channel-mgmt-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+  align-items: end;
+}
+
+.channel-mgmt-form .full-width {
+  grid-column: 1 / -1;
+}
+
+.channel-mgmt-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.85em;
+}
+
+.channel-mgmt-form input[type='text'],
+.channel-mgmt-form select {
+  padding: 8px 10px;
+  font-family: inherit;
+  font-size: 1em;
+  color: var(--text-color);
+  background: var(--btn-default);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+}
+
+.channel-mgmt-actions {
+  display: flex;
+  gap: 8px;
+  grid-column: 1 / -1;
+}
+
+.channel-mgmt-actions .submit {
+  background: var(--primary-color);
+  color: #fff;
+}
+
+.channel-mgmt .row-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.channel-mgmt .row-actions button {
+  padding: 4px 10px;
+  font-size: 0.85em;
+}
+
+.channel-mgmt-error {
+  color: #d64545;
+}
+
+.channel-mgmt-empty {
+  opacity: 0.6;
+}

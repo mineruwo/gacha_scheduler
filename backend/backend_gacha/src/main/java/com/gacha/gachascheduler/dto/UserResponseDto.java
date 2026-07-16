@@ -14,4 +14,5 @@ public class UserResponseDto {
     private String role;
     private OffsetDateTime createdAt;
     private OffsetDateTime updatedAt;
+    private String token;
 }
