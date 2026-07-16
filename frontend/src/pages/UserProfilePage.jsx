@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from 'react';
+import { Link, useOutletContext } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { userApi } from '../api/userApi';
+import useMediaQuery from '../hooks/useMediaQuery';
 import './UserProfilePage.css';
 
 function UserProfilePage() {
-  const { user, token, login } = useAuth();
+  const { user, token, login, role, logout } = useAuth();
+  const { theme, toggleTheme } = useOutletContext();
+  const isMobile = useMediaQuery('(max-width: 768px)');
+  const isSubAdmin = role === 'SUB_ADMIN' || role === 'MAIN_ADMIN';
+  const isMainAdmin = role === 'MAIN_ADMIN';
   const [profile, setProfile] = useState(null);
   const [form, setForm] = useState({ name: '', profilePictureUrl: '' });
   const [editing, setEditing] = useState(false);
@@ -38,17 +44,15 @@ function UserProfilePage() {
     }
   };
 
-  if (profile == null) {
-    return <div>{error ?? '사용자 정보를 불러오는 중...'}</div>;
-  }
-
   return (
     <div className="profile-page">
       <h1>내 정보</h1>
 
       {error && <p className="profile-error">{error}</p>}
 
-      {!editing ? (
+      {profile == null ? (
+        !error && <p>사용자 정보를 불러오는 중...</p>
+      ) : !editing ? (
         <div className="profile-view">
           {profile.profilePictureUrl && (
             <img className="profile-avatar" src={profile.profilePictureUrl} alt="프로필" />
@@ -89,6 +93,52 @@ function UserProfilePage() {
           </div>
         </form>
       )}
+
+      {/* 하단 탭바에는 '기록'이 없으므로(Flutter 원본 탭 구성에 맞춰 '홈'을 넣음), 모바일에서는 여기서 접근 */}
+      {isMobile && (
+        <div className="profile-admin-menu">
+          <h2>내 활동</h2>
+          <ul>
+            <li><Link to="/history">뽑기 기록</Link></li>
+          </ul>
+        </div>
+      )}
+
+      {/* 데스크톱은 Sidebar에 관리자 메뉴가 이미 있으므로, 하단 탭바만 쓰는 모바일 폭에서만 노출 */}
+      {isMobile && (isSubAdmin || isMainAdmin) && (
+        <div className="profile-admin-menu">
+          <h2>관리자 메뉴</h2>
+          <ul>
+            {isSubAdmin && (
+              <>
+                <li><Link to="/admin/game">게임 관리</Link></li>
+                <li><Link to="/admin/gacha-banner">가챠 배너 관리</Link></li>
+                <li><Link to="/admin/announcements">공지/팝업 관리</Link></li>
+                <li><Link to="/admin/notice">공지사항 작성</Link></li>
+                <li><Link to="/admin/channel">채널 관리</Link></li>
+              </>
+            )}
+            {isMainAdmin && <li><Link to="/admin/users">유저 정보 관리</Link></li>}
+          </ul>
+        </div>
+      )}
+
+      {/* 로그아웃/테마 토글을 헤더에서 빼서 내정보 안으로 이동 */}
+      <div className="profile-admin-menu">
+        <h2>설정</h2>
+        <div className="profile-settings-row">
+          <span>다크 모드</span>
+          <label className="toggle-switch">
+            <input
+              type="checkbox"
+              checked={theme === 'dark'}
+              onChange={toggleTheme}
+            />
+            <span className="toggle-switch-track" />
+          </label>
+        </div>
+        <button type="button" className="profile-logout" onClick={logout}>로그아웃</button>
+      </div>
     </div>
   );
 }

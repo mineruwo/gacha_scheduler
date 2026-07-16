@@ -17,5 +17,20 @@
   "gacha_pull_error": "뽑기에 실패했습니다. 잠시 후 다시 시도해주세요",
   "gacha_retry": "다시 시도",
   "board_screen_title": "공략 게시판 화면",
-  "my_info_screen_title": "내 정보 화면"
+  "my_info_screen_title": "내 정보 화면",
+  "login_screen_title": "로그인",
+  "login_tab_login": "로그인",
+  "login_tab_signup": "회원가입",
+  "login_email_label": "이메일",
+  "login_password_label": "비밀번호",
+  "login_name_label": "이름",
+  "login_submit_login": "로그인",
+  "login_submit_signup": "회원가입",
+  "login_success": "로그인되었습니다",
+  "my_info_login_required": "로그인이 필요합니다",
+  "my_info_login_cta": "로그인 / 회원가입",
+  "my_info_logout": "로그아웃",
+  "schedule_today_button": "오늘",
+  "schedule_load_error": "일정을 불러오지 못했습니다",
+  "schedule_no_events": "표시할 일정이 없습니다"
 }

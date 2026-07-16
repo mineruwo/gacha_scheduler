@@ -1,0 +1,111 @@
+.announcement-mgmt {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.announcement-mgmt h1 {
+  font-size: 1.8em;
+}
+
+.announcement-mgmt h2 {
+  font-size: 1.3em;
+}
+
+.announcement-mgmt section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  background: var(--surface-default);
+}
+
+.announcement-mgmt .table-scroll {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.announcement-mgmt table {
+  width: 100%;
+  min-width: 480px;
+  border-collapse: collapse;
+  font-size: 0.9em;
+}
+
+.announcement-mgmt th,
+.announcement-mgmt td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border-color);
+  text-align: left;
+  white-space: nowrap;
+}
+
+.announcement-mgmt-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+  align-items: end;
+}
+
+.announcement-mgmt-form .full-width {
+  grid-column: 1 / -1;
+}
+
+.announcement-mgmt-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.85em;
+}
+
+.announcement-mgmt-form label.checkbox {
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+}
+
+.announcement-mgmt-form input[type='text'],
+.announcement-mgmt-form input[type='datetime-local'],
+.announcement-mgmt-form select,
+.announcement-mgmt-form textarea {
+  padding: 8px 10px;
+  font-family: inherit;
+  font-size: 1em;
+  color: var(--text-color);
+  background: var(--btn-default);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  resize: vertical;
+}
+
+.announcement-mgmt-actions {
+  display: flex;
+  gap: 8px;
+  grid-column: 1 / -1;
+}
+
+.announcement-mgmt-actions .submit {
+  background: var(--primary-color);
+  color: #fff;
+}
+
+.announcement-mgmt .row-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.announcement-mgmt .row-actions button {
+  padding: 4px 10px;
+  font-size: 0.85em;
+}
+
+.announcement-mgmt-error {
+  color: #d64545;
+}
+
+.announcement-mgmt-empty {
+  opacity: 0.6;
+}

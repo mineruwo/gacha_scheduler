@@ -1,6 +1,19 @@
 # 08. 수익화 전략 (Monetization Strategy)
 
-상태: 기획 수립 완료 / 개발 대기
+상태: 백엔드 일부 완료 — 서버비 프로그레스 바 API. 광고/포인트 시스템은 대기 (아래 "백엔드 구현 현황" 참고)
+
+## 백엔드 구현 현황 (2026-07-16)
+
+| 항목 | 상태 |
+|---|---|
+| Phase 1~2 네이티브 광고 | 백엔드 작업 없음 — 광고 삽입 위치/스켈레톤 UI는 전부 프론트 영역. 애드센스/애드몹 연동도 프론트+퍼블리셔 계정 설정이라 백엔드 대상 아님 |
+| Phase 3~ 포인트 시스템 + 보상형 비디오 | **미착수** — 포인트 원장(적립/차감 이력), 뱃지/프레임/이모티콘 보유 및 상점, 보상형 광고 SDK 연동 등 구체적인 데이터 모델이 이 기획서에 아직 정의돼 있지 않음. 착수하려면 먼저 포인트 획득/차감 이벤트 종류, 상점 아이템 목록, 광고 SDK(AdMob 등) 선정부터 기획 확정이 필요 — 지금 임의로 스키마를 설계하면 이후 기획 변경 시 갈아엎어야 할 위험이 커서 보류
+| 서버비 충당 프로그레스 바 | **완료** — `ServerCostSettingEntity`(id=1 고정 싱글톤 행: targetAmount/currentAmount). `GET /api/settings/server-cost`(공개, 게이지 UI용 — targetAmount/currentAmount/percentage 0~100 반환), `GET/PUT /api/admin/settings/server-cost`(관리자, 06번 문서에서 예고된 API 이름 그대로). percentage는 목표 초과 달성 시 100에서 클램프(원본 금액은 그대로 노출) |
+
+### 프론트 연동 시 필요한 것
+
+- 메인/사이드바 게이지: `GET /api/settings/server-cost` 호출 → `percentage`로 진행 바, `currentAmount`/`targetAmount`는 "780,000 / 1,000,000원" 같은 보조 텍스트에 사용
+- 관리자 설정 화면: `GET /api/admin/settings/server-cost`로 현재 값 프리필 → 폼 제출 시 `PUT`으로 갱신(기존 `GameManagementPage` 등과 동일한 단일 리소스 폼 패턴)
 선행 조건: 플랫폼 기본 기능 오픈 (Phase 1~2 이후 점진적 적용)
 
 ## 배경 및 목적

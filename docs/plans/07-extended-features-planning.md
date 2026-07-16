@@ -2,6 +2,27 @@
 
 본 문서는 **Gacha Scheduler** 프로젝트의 장기 로드맵에 따른 고도화 기능(가챠 확률 계산기, 캘린더 연동, 가챠 공유 카드 생성, AI 스케줄 파이프라인)의 요구사항과 아키텍처 및 상세 기획을 다룹니다.
 
+## 백엔드 구현 현황 (2026-07-16)
+
+| 항목 | 상태 |
+|---|---|
+| 1. 몬테카를로 가챠 계산기 | 미착수 — 기획상 클라이언트 사이드(Web Worker) 연산이 기본이라 백엔드 API가 필수는 아님. 프론트 구현 시 별도 백엔드 예측 API가 필요해지면 그때 논의 |
+| 2. 캘린더 외부 구독(iCal) | **백엔드 완료** — `GET /api/users/{userCode}/calendar.ics`(공개), `POST /api/users/me/calendar/reset`(로그인, userCode 재발급). 아래 상세 참고 |
+| 3. 가챠 결과 공유 카드 생성기 | 백엔드 작업 없음 — 전부 프론트(html2canvas/Capacitor Share API)에서 처리하는 기능이라 이 세션 범위 밖 |
+| 4. AI 스케줄 자동 파싱 파이프라인 | **부분 완료** — "관리자 검토/승인" 워크플로만 백엔드 구현. 실제 웹 스크래퍼·LLM 파서는 미착수(아래 참고) |
+
+### 2. iCal 구독 상세
+
+- `GET /api/users/{userCode}/calendar.ics` — 비로그인 공개 접근(`userCode` 자체가 추측 불가능한 비밀값 역할, 캘린더 앱이 주기적으로 직접 호출해야 하므로 세션 인증을 요구할 수 없음). `IcsCalendarService`가 유저의 `UserGamePreference` 필터에 해당하는 일정만 조회해 RFC 5545 텍스트로 변환(필터가 비어있으면 스케줄러 페이지와 동일 컨벤션으로 전체 게임 포함). 조회 범위는 현재 기준 -3개월~+12개월로 고정(구독 피드가 무한정 누적되지 않도록)
+- `POST /api/users/me/calendar/reset`(로그인 필요) — `userCode`를 재발급해 기존 구독 URL을 무효화. **주의**: `userCode`는 프로필 화면에도 노출되는 범용 식별자라 재발급하면 캘린더 URL뿐 아니라 이 값을 참조하는 다른 곳에도 영향을 줄 수 있음(현재는 다른 곳에서 FK로 쓰이지 않음을 확인했으나, 향후 userCode를 다른 용도로 확장할 계획이 있다면 캘린더 전용 별도 토큰 필드 분리를 고려할 것)
+- 프론트 연동 시 필요한 것: 마이페이지에 구독 URL(`{API_BASE_URL}/api/users/{userCode}/calendar.ics`, `userCode`는 `GET /api/users/me` 응답에 이미 포함됨) 노출 + 복사 버튼 + "재발급" 버튼(`POST .../calendar/reset` 호출 후 갱신된 userCode로 URL 재구성)
+
+### 4. AI 스케줄 파이프라인 — 구현 범위와 제외 사유
+
+- **구현함**: `PendingScheduleEntity`(승인 대기 스테이징 테이블) + 관리자 API(`/api/admin/pending-schedules`) — 목록 조회(`?status=`), 등록(`POST`), 승인(`POST /{id}/approve` → 실제 `ScheduleEvent` 생성), 반려(`POST /{id}/reject`). 승인/반려된 항목은 감사 추적을 위해 삭제하지 않고 상태만 변경
+- **제외함(외부 자격증명·검토 필요)**: 실제 "웹 스크래퍼"(각 게임사 공지/RSS/트위터 크롤링)와 "LLM AI 파서"는 이번에 구현하지 않음 — LLM API 키 발급, 크롤링 대상 사이트들의 ToS 검토, 스케줄링(cron) 인프라가 필요해 백엔드 세션 단독으로 착수하기 어려운 범위. 지금은 관리자가 `POST /api/admin/pending-schedules`로 후보를 수동 등록하는 것으로 대체 가능하며, 추후 스크래퍼/LLM 연동이 결정되면 동일한 엔드포인트에 자동으로 후보를 밀어넣기만 하면 됨(계약 변경 없음)
+- 프론트 연동 시 필요한 것: 관리자 대시보드에 "승인 대기 스케줄" 목록 화면 + 승인/반려 버튼
+
 ---
 
 ## 1. 몬테카를로 기반 가챠 확률 계산기 (Monte Carlo Gacha Calculator)

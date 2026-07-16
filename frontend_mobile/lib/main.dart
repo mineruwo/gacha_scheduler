@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend_mobile/screens/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:frontend_mobile/firebase_options.dart';
+import 'package:frontend_mobile/theme/app_theme.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -81,11 +82,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Gacha Scheduler',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-        useMaterial3: true,
-        fontFamily: 'NotoSansKR',
-      ),
+      theme: AppTheme.light,
       home: const SplashScreen(),
       debugShowCheckedModeBanner: false,
       navigatorObservers: [observer],

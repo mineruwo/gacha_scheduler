@@ -38,7 +38,7 @@
 
 파트별 구현 계획은 [docs/plans](docs/plans/00-overview.md)에서 확인할 수 있습니다.
 
-> **AI 병렬 작업 시 필독**: 여러 AI 세션이 동시에 작업 중입니다. 작업 시작 전 [docs/SYNC.md](docs/SYNC.md)를 읽고, 작업 종료 시 로그를 남겨 서로의 최신 작업을 공유하세요.
+> **AI 병렬 작업 시 필독**: 여러 AI 세션이 동시에 작업 중입니다. 처음 합류했다면 [docs/HANDOVER.md](docs/HANDOVER.md)로 현재 상태를 빠르게 파악한 뒤, 작업 시작 전 [docs/SYNC.md](docs/SYNC.md)를 읽고, 작업 종료 시 로그를 남겨 서로의 최신 작업을 공유하세요.
 
 ## 🔐 로컬 개발 환경 설정
 

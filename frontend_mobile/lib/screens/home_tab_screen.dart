@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:frontend_mobile/managers/localization_manager.dart';
+import 'package:frontend_mobile/theme/app_theme.dart';
 import 'dart:async'; // Import for Timer
 
 // Define BannerObject class
@@ -120,10 +121,11 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
           Padding(
             padding: const EdgeInsets.symmetric(
               horizontal: 16.0,
-              vertical: 8.0,
+              vertical: 12.0,
             ), // Add horizontal padding
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(12.0), // Add rounded corners
+            child: Container(
+              decoration: AppTheme.softCard(radius: 20),
+              clipBehavior: Clip.antiAlias,
               child: SizedBox(
                 height: 200.0, // Carousel height
                 child: PageView.builder(
@@ -206,7 +208,29 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
           ),
           Expanded(
             child: Center(
-              child: Text(LocalizationManager.instance.getString('app_title')),
+              child: Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 24),
+                  decoration: AppTheme.softCard(color: AppColors.pastelPurple.withValues(alpha: 0.25)),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(Icons.auto_awesome_rounded, color: AppColors.primaryDark, size: 32),
+                      const SizedBox(height: 12),
+                      Text(
+                        LocalizationManager.instance.getString('app_title'),
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.textPrimary,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ),
           ),
         ],

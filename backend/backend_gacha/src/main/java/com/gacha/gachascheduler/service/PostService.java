@@ -79,8 +79,10 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public Page<PostResponseDto> getPostsByChannel(Long channelId, Pageable pageable) {
-        Page<PostEntity> posts = postRepository.findByChannelIdOrderByCreatedAtDesc(channelId, pageable);
+    public Page<PostResponseDto> getPostsByChannel(Long channelId, String query, Pageable pageable) {
+        Page<PostEntity> posts = query != null && !query.isBlank()
+                ? postRepository.searchByChannelId(channelId, query.trim(), pageable)
+                : postRepository.findByChannelIdOrderByCreatedAtDesc(channelId, pageable);
 
         ChannelEntity channel = channelRepository.findById(channelId).orElse(null);
         Map<Long, UserEntity> authorsById = userRepository.findAllById(

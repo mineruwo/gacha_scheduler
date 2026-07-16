@@ -28,6 +28,10 @@ public class UserEntity {
     @Column(name = "google_id", unique = true)
     private String googleId;
 
+    // 아이디/비밀번호 회원가입 계정만 값이 있음 (구글 전용 계정은 null) — BCrypt 해시만 저장
+    @Column(name = "password_hash")
+    private String passwordHash;
+
     @Column(name = "user_code", unique = true, nullable = false)
     private String userCode;
 

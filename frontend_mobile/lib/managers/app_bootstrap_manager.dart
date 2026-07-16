@@ -2,9 +2,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend_mobile/enums/init_state.dart';
 import 'package:frontend_mobile/managers/localization_manager.dart';
 import 'package:frontend_mobile/managers/user_data_manager.dart';
+import 'package:frontend_mobile/providers/auth_providers.dart';
 
 class AppBootstrapManager extends StateNotifier<InitState> {
-  AppBootstrapManager() : super(InitState.INIT);
+  final Ref _ref;
+
+  AppBootstrapManager(this._ref) : super(InitState.INIT);
 
   static const Duration _minSplashDuration = Duration(seconds: 3);
 
@@ -17,6 +20,7 @@ class AppBootstrapManager extends StateNotifier<InitState> {
         break;
       case InitState.USER_DATA:
         await UserDataManager.instance.init();
+        await _ref.read(authControllerProvider.notifier).restoreSession();
         break;
       case InitState.REQUIRE_INITIALIZED_DONE:
         break;
@@ -49,5 +53,5 @@ class AppBootstrapManager extends StateNotifier<InitState> {
 }
 
 final appBootstrapProvider = StateNotifierProvider<AppBootstrapManager, InitState>((ref) {
-  return AppBootstrapManager();
+  return AppBootstrapManager(ref);
 });

@@ -64,3 +64,91 @@
   background: var(--primary-color);
   color: #fff;
 }
+
+.profile-admin-menu {
+  padding-top: 16px;
+  border-top: 1px solid var(--border-color);
+}
+
+.profile-admin-menu h2 {
+  font-size: 1.1em;
+  margin-bottom: 8px;
+}
+
+.profile-admin-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.profile-admin-menu a {
+  text-decoration: none;
+  color: var(--text-color);
+  font-weight: bold;
+}
+
+.profile-settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 200px;
+  margin-bottom: 12px;
+}
+
+.profile-logout {
+  background: none;
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  cursor: pointer;
+}
+
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-switch-track {
+  position: absolute;
+  inset: 0;
+  background: var(--border-color);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.toggle-switch-track::before {
+  content: '';
+  position: absolute;
+  left: 3px;
+  top: 3px;
+  width: 18px;
+  height: 18px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform 0.2s ease;
+}
+
+.toggle-switch input:checked + .toggle-switch-track {
+  background: var(--primary-color);
+}
+
+.toggle-switch input:checked + .toggle-switch-track::before {
+  transform: translateX(20px);
+}
+
+.toggle-switch input:focus-visible + .toggle-switch-track {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}

@@ -28,3 +28,40 @@ const realGachaApi = {
 };
 
 export const gachaApi = useMock ? mockGachaApi : realGachaApi;
+
+// 관리자 전용 (SUB_ADMIN / MAIN_ADMIN) — 배너/캐릭터/드랍테이블(풀) 관리
+export const adminGachaApi = {
+  fetchCharactersByGame(gameId) {
+    return apiFetch(`/api/admin/characters?gameId=${gameId}`);
+  },
+  createCharacter(character) {
+    return apiFetch('/api/admin/characters', { method: 'POST', body: JSON.stringify(character) });
+  },
+  updateCharacter(id, character) {
+    return apiFetch(`/api/admin/characters/${id}`, { method: 'PUT', body: JSON.stringify(character) });
+  },
+  deleteCharacter(id) {
+    return apiFetch(`/api/admin/characters/${id}`, { method: 'DELETE' });
+  },
+
+  createBanner(banner) {
+    return apiFetch('/api/admin/banners', { method: 'POST', body: JSON.stringify(banner) });
+  },
+  updateBanner(id, banner) {
+    return apiFetch(`/api/admin/banners/${id}`, { method: 'PUT', body: JSON.stringify(banner) });
+  },
+  deleteBanner(id) {
+    return apiFetch(`/api/admin/banners/${id}`, { method: 'DELETE' });
+  },
+
+  // 배너 풀에 캐릭터 추가/가중치·픽업 수정 (characterId 기준 upsert)
+  setPoolCharacter(bannerId, { characterId, weight, isPickup }) {
+    return apiFetch(`/api/admin/banners/${bannerId}/characters`, {
+      method: 'PUT',
+      body: JSON.stringify({ characterId, weight, isPickup }),
+    });
+  },
+  removePoolCharacter(bannerId, characterId) {
+    return apiFetch(`/api/admin/banners/${bannerId}/characters/${characterId}`, { method: 'DELETE' });
+  },
+};

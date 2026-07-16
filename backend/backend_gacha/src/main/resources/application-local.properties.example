@@ -17,3 +17,9 @@ JWT_SECRET=<random-secret-at-least-32-bytes>
 # http://localhost:5173,https://localhost 가 기본값으로 사용된다.
 # 웹을 실제 도메인에 배포하거나 Capacitor 앱 셸 origin이 늘어나면 여기에 추가한다.
 # cors.allowed-origins=http://localhost:5173,https://localhost,https://your-deployed-domain.example
+
+# NCP 콘솔 > Object Storage에서 만든 버킷 + 마이페이지 > 인증키 관리에서 발급한 API 인증키.
+# 로컬 개발에서 이미지 업로드를 테스트하려면 채워야 한다(안 채우면 업로드 API 호출 시 실패).
+NCP_OBJECT_STORAGE_BUCKET=<bucket-name>
+NCP_OBJECT_STORAGE_ACCESS_KEY=<ncp-access-key>
+NCP_OBJECT_STORAGE_SECRET_KEY=<ncp-secret-key>

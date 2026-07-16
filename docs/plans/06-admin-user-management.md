@@ -1,6 +1,6 @@
 # 06. 관리자/유저 관리
 
-상태: 완료 (백엔드 + 프론트, H2 e2e 검증) — Phase 2 신규 기획(서버 유지비 프로그레스 바)은 별도 대기
+상태: 완료 (백엔드 + 프론트, H2 e2e 검증) — Phase 2 중 서버 유지비 프로그레스 바 API·가챠 확률 제어 UI·공지사항/팝업배너 관리는 완료
 선행 조건: [02. 인증/공통 기반](02-auth-foundation.md), [03~05 파트] (히스토리가 각 기능 활동을 참조)
 
 ## 배경
@@ -15,7 +15,17 @@
 - [x] `GET /api/users/me` — 내 프로필 조회, `PUT /api/users/me` — 닉네임/프로필 이미지 수정 (`UserProfileController`)
 - [x] `GET /api/users/me/history` — 내가 작성한 글 + 댓글 통합 조회 (`UserHistoryService`). **가챠 뽑기 기록은 파트 04에서 서버 측 영속 저장을 하지 않기로 했으므로 포함하지 않음** — docs/plans/04-gacha-simulator.md 설계 메모 참고
 - [x] 유저 정지: 새 `status` 필드를 추가하지 않고 기존 `UserEntity.isDeleted`/`deletedAt`(이미 있던 소프트 삭제 필드)를 재사용 — `DELETE /api/admin/users/{id}`가 `UserService.deleteUser`(기존 메서드) 호출
-- [ ] 서버 유지비 프로그레스 바 데이터 저장/조회 API (`GET/PUT /api/admin/settings/server-cost`) (신규 기획 - Phase 2)
+- [x] 서버 유지비 프로그레스 바 데이터 저장/조회 API (`GET/PUT /api/admin/settings/server-cost`, 공개 조회는 `GET /api/settings/server-cost`) — 상세는 [08-monetization-strategy.md](08-monetization-strategy.md) "백엔드 구현 현황" 참고
+
+## Phase 2: 추가 관리 기능
+
+- [x] **공지사항(Notification) / 앱 내 팝업 배너(Banner) 관리 엔드포인트** (2026-07-16) — `AnnouncementEntity`(NOTICE/POPUP 공용, `type`/`title`/`content`/`imageUrl`/`linkUrl`/`startAt`/`endAt`/`isActive`) 신규. 공개 조회 `GET /api/announcements?type=`(활성 기간+isActive인 것만), 관리자 CRUD `POST/PUT/DELETE /api/admin/announcements`(전체 목록 무관하게 관리). 프론트: `HomePage`에 활성 NOTICE 목록 표시, `MainLayout`에 전역 `PopupBannerModal`(활성 POPUP 중 오늘 안 본 것 1개, localStorage로 "오늘 하루 보지 않기" 기억), 관리자 페이지 `AnnouncementManagementPage`(`/admin/announcements`). `AnnouncementServiceTest`/`SecurityConfigTest` 추가, 브라우저 e2e로 등록/수정/비활성화/재활성화까지 확인. 상세는 SYNC.md 로그 참고
+- [ ] 유저 정지 / 해제 (Banned) 플래그 및 블랙리스트 관리 — 기본 정지는 위 `isDeleted` 재사용으로 이미 되지만, 기간제 정지/사유 기록 등 더 세밀한 관리가 필요하면 별도 작업
+- [ ] 서버 유지비 후원 진척도(`GET/PUT /api/admin/settings/server-cost`) 데이터 관리 UI
+- [x] **가챠 확률 제어 UI (Probability Management)** (2026-07-16, 사용자 리포트로 착수) — `frontend/src/pages/GachaBannerManagementPage.jsx`(`/admin/gacha-banner`)로 구현 완료
+  - [x] 배너 생성 시 `pityThreshold`(천장) 및 `rateUpRate`(픽업 확률) 직접 입력란 제공.
+  - [x] 배너 내 캐릭터 풀(Pool)의 가중치(Weight)를 실시간으로 조정할 수 있는 테이블 제공(가중치 인라인 수정 + 픽업 토글 + 추가/제외).
+  - [x] 가중치를 입력하면 즉시 **등급별 최종 등장 확률(%)**이 실시간 계산되어 화면에 표시되는 헬퍼 UI 구현. 상세는 04-gacha-simulator.md, SYNC.md 로그 참고 — 백엔드는 기존 admin API(파트 04) 그대로 사용, 신규 백엔드 코드 없음
 
 ### 알아둘 점 (다른 파트에 영향)
 

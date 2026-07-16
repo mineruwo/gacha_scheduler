@@ -26,8 +26,9 @@ public class PostController {
     @GetMapping("/api/channels/{channelId}/posts")
     public ResponseEntity<Page<PostResponseDto>> getPostsByChannel(
             @PathVariable Long channelId,
+            @RequestParam(required = false) String query,
             @PageableDefault(size = 20) Pageable pageable) {
-        return ResponseEntity.ok(postService.getPostsByChannel(channelId, pageable));
+        return ResponseEntity.ok(postService.getPostsByChannel(channelId, query, pageable));
     }
 
     @PostMapping("/api/channels/{channelId}/posts")

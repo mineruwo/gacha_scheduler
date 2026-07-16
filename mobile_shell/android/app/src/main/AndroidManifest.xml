@@ -22,6 +22,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
+            <!-- Google 로그인을 외부 브라우저(Custom Tabs)에 위임한 뒤, 로그인 완료 시 이 커스텀 스킴으로 앱에 결과를 돌려받는다 -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="gachascheduler" android:host="auth-callback" />
+            </intent-filter>
+
         </activity>
 
         <provider

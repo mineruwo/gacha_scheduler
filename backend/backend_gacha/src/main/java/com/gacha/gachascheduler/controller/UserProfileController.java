@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,5 +46,13 @@ public class UserProfileController {
     public ResponseEntity<UserHistoryResponseDto> getMyHistory(
             @AuthenticationPrincipal AuthenticatedUser principal) {
         return ResponseEntity.ok(userHistoryService.getHistory(principal.userId()));
+    }
+
+    /** 캘린더 구독 URL(userCode 포함)이 유출됐을 때 재발급해 기존 URL을 무효화한다. */
+    @PostMapping("/calendar/reset")
+    public ResponseEntity<UserProfileResponseDto> resetCalendarCode(
+            @AuthenticationPrincipal AuthenticatedUser principal) {
+        UserEntity updated = userService.resetUserCode(principal.userId());
+        return ResponseEntity.ok(UserMapper.toProfileDto(updated));
     }
 }

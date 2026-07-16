@@ -24,6 +24,8 @@ function StrategyBoardPage() {
   const [selectedChannelId, setSelectedChannelId] = useState(null);
   const [postsPage, setPostsPage] = useState(null);
   const [pageNumber, setPageNumber] = useState(0);
+  const [searchInput, setSearchInput] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
   const [error, setError] = useState(null);
 
   const [selectedPost, setSelectedPost] = useState(null);
@@ -46,10 +48,22 @@ function StrategyBoardPage() {
     setPostsPage(null);
     setSelectedPost(null);
     boardApi
-      .fetchPosts(selectedChannelId, { page: pageNumber })
+      .fetchPosts(selectedChannelId, { page: pageNumber, query: searchQuery })
       .then(setPostsPage)
       .catch(() => setError('게시글 목록을 불러오지 못했습니다.'));
-  }, [selectedChannelId, pageNumber]);
+  }, [selectedChannelId, pageNumber, searchQuery]);
+
+  const submitSearch = (event) => {
+    event.preventDefault();
+    setPageNumber(0);
+    setSearchQuery(searchInput);
+  };
+
+  const clearSearch = () => {
+    setSearchInput('');
+    setSearchQuery('');
+    setPageNumber(0);
+  };
 
   const openPost = (postId) => {
     setError(null);
@@ -133,6 +147,8 @@ function StrategyBoardPage() {
               onClick={() => {
                 setSelectedChannelId(ch.id);
                 setPageNumber(0);
+                setSearchInput('');
+                setSearchQuery('');
               }}
             >
               {ch.gameName ? `${ch.gameName} · ` : ''}{ch.name}
@@ -145,16 +161,30 @@ function StrategyBoardPage() {
 
       {selectedChannelId != null && (selectedPost == null ? (
         <>
-          {isAuthenticated && (
-            <div className="board-write-link">
-              <Link to="/admin/notice">글쓰기</Link>
-            </div>
-          )}
+          <div className="board-toolbar">
+            <form className="board-search" onSubmit={submitSearch}>
+              <input
+                type="text"
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
+                placeholder="제목/내용 검색"
+              />
+              <button type="submit">검색</button>
+              {searchQuery && <button type="button" onClick={clearSearch}>초기화</button>}
+            </form>
+            {isAuthenticated && (
+              <div className="board-write-link">
+                <Link to="/admin/notice">글쓰기</Link>
+              </div>
+            )}
+          </div>
 
           {postsPage == null ? (
             <p className="board-empty">게시글을 불러오는 중...</p>
           ) : postsPage.content.length === 0 ? (
-            <p className="board-empty">게시글이 없습니다.</p>
+            <p className="board-empty">
+              {searchQuery ? `'${searchQuery}' 검색 결과가 없습니다.` : '게시글이 없습니다.'}
+            </p>
           ) : (
             <>
               <table className="board-post-list">

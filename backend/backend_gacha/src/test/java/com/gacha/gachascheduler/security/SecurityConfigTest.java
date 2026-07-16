@@ -8,11 +8,14 @@ import com.gacha.gachascheduler.dto.BannerResponseDto;
 import com.gacha.gachascheduler.entity.BannerEntity;
 import com.gacha.gachascheduler.entity.CharacterEntity;
 import com.gacha.gachascheduler.entity.GameEntity;
+import com.gacha.gachascheduler.entity.UserEntity;
 import com.gacha.gachascheduler.enums.Role;
 import com.gacha.gachascheduler.repository.CharacterRepository;
 import com.gacha.gachascheduler.repository.GameRepository;
+import com.gacha.gachascheduler.repository.UserRepository;
 import com.gacha.gachascheduler.service.BannerService;
 import java.time.OffsetDateTime;
+import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -38,6 +41,14 @@ class SecurityConfigTest {
 
     @Autowired
     private CharacterRepository characterRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Test
+    void actuatorHealthEndpointIsAccessibleWithoutToken() throws Exception {
+        mockMvc.perform(get("/actuator/health")).andExpect(status().isOk());
+    }
 
     @Test
     void publicEndpointIsAccessibleWithoutToken() throws Exception {
@@ -204,5 +215,129 @@ class SecurityConfigTest {
     @Test
     void myHistoryEndpointRejectsRequestWithoutToken() throws Exception {
         mockMvc.perform(get("/api/users/me/history")).andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void calendarIcsFeedIsAccessibleWithoutToken() throws Exception {
+        UserEntity user = new UserEntity();
+        user.setEmail("calendar-security-test@example.com");
+        user.setName("Calendar Security Test");
+        user.setGoogleId("google-calendar-security-test-" + UUID.randomUUID());
+        user.setUserCode("calendar-security-test-" + UUID.randomUUID());
+        userRepository.save(user);
+
+        mockMvc.perform(get("/api/users/" + user.getUserCode() + "/calendar.ics"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void calendarResetEndpointRejectsRequestWithoutToken() throws Exception {
+        mockMvc.perform(post("/api/users/me/calendar/reset")).andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void pendingSchedulesEndpointRejectsRequestWithoutToken() throws Exception {
+        mockMvc.perform(get("/api/admin/pending-schedules")).andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void pendingSchedulesEndpointRejectsUserRoleToken() throws Exception {
+        String token = jwtProvider.createToken(1L, Role.USER);
+
+        mockMvc.perform(get("/api/admin/pending-schedules").header("Authorization", "Bearer " + token))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    void pendingSchedulesEndpointAllowsSubAdminRoleToken() throws Exception {
+        String token = jwtProvider.createToken(1L, Role.SUB_ADMIN);
+
+        mockMvc.perform(get("/api/admin/pending-schedules").header("Authorization", "Bearer " + token))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void signupEndpointIsAccessibleWithoutToken() throws Exception {
+        mockMvc.perform(post("/api/auth/signup")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"email\":\"security-signup-test@example.com\",\"password\":\"password123\",\"name\":\"Signup Test\"}"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void loginEndpointIsAccessibleWithoutToken() throws Exception {
+        mockMvc.perform(post("/api/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"email\":\"nonexistent@example.com\",\"password\":\"password123\"}"))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void serverCostSettingsPublicEndpointIsAccessibleWithoutToken() throws Exception {
+        mockMvc.perform(get("/api/settings/server-cost")).andExpect(status().isOk());
+    }
+
+    @Test
+    void adminServerCostSettingsEndpointRejectsRequestWithoutToken() throws Exception {
+        mockMvc.perform(get("/api/admin/settings/server-cost")).andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void adminServerCostSettingsEndpointRejectsUserRoleToken() throws Exception {
+        String token = jwtProvider.createToken(1L, Role.USER);
+
+        mockMvc.perform(get("/api/admin/settings/server-cost").header("Authorization", "Bearer " + token))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    void adminServerCostSettingsEndpointAllowsSubAdminRoleToken() throws Exception {
+        String token = jwtProvider.createToken(1L, Role.SUB_ADMIN);
+
+        mockMvc.perform(get("/api/admin/settings/server-cost").header("Authorization", "Bearer " + token))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void announcementsPublicEndpointIsAccessibleWithoutToken() throws Exception {
+        mockMvc.perform(get("/api/announcements")).andExpect(status().isOk());
+    }
+
+    @Test
+    void adminAnnouncementsEndpointRejectsRequestWithoutToken() throws Exception {
+        mockMvc.perform(get("/api/admin/announcements")).andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void adminAnnouncementsEndpointRejectsUserRoleToken() throws Exception {
+        String token = jwtProvider.createToken(1L, Role.USER);
+
+        mockMvc.perform(get("/api/admin/announcements").header("Authorization", "Bearer " + token))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    void adminAnnouncementsEndpointAllowsSubAdminRoleToken() throws Exception {
+        String token = jwtProvider.createToken(1L, Role.SUB_ADMIN);
+
+        mockMvc.perform(get("/api/admin/announcements").header("Authorization", "Bearer " + token))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void adminFileUploadEndpointRejectsRequestWithoutToken() throws Exception {
+        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+                        .multipart("/api/admin/files/upload"))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void adminFileUploadEndpointRejectsUserRoleToken() throws Exception {
+        String token = jwtProvider.createToken(1L, Role.USER);
+
+        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+                        .multipart("/api/admin/files/upload")
+                        .header("Authorization", "Bearer " + token))
+                .andExpect(status().isForbidden());
     }
 }

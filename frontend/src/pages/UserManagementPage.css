@@ -33,8 +33,17 @@
   border-radius: 8px;
 }
 
+/* 좁은 화면에서 표가 컨테이너 폭에 맞춰 억지로 줄어들면 한글 헤더/셀 텍스트가
+   글자 단위로 줄바꿈된다. 표만 별도로 가로 스크롤시키고 각 셀은 줄바꿈하지 않는다. */
+.table-scroll {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
 .user-mgmt table {
   width: 100%;
+  min-width: 560px;
   border-collapse: collapse;
   font-size: 0.9em;
 }
@@ -44,6 +53,7 @@
   padding: 8px 10px;
   border-bottom: 1px solid var(--border-color);
   text-align: left;
+  white-space: nowrap;
 }
 
 .user-mgmt select {

@@ -15,6 +15,13 @@ function useTheme() {
   useEffect(() => {
     document.documentElement.setAttribute('color-theme', theme);
     localStorage.setItem('color-theme', theme);
+
+    // Capacitor 앱 셸에서 상태바 아이콘 색을 테마에 맞춘다 (일반 브라우저에선 no-op).
+    // Style.Dark = 어두운 배경용(밝은 아이콘), Style.Light = 밝은 배경용(어두운 아이콘)
+    const statusBar = window.Capacitor?.Plugins?.StatusBar;
+    if (statusBar) {
+      statusBar.setStyle({ style: theme === 'dark' ? 'DARK' : 'LIGHT' }).catch(() => {});
+    }
   }, [theme]);
 
   const toggleTheme = () => {

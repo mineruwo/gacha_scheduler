@@ -9,9 +9,11 @@ export const boardApi = {
     return apiFetch(`/api/channels${query}`);
   },
 
-  // 채널별 게시글 목록, Page<PostResponseDto> 그대로 반환 (비로그인 가능)
-  fetchPosts(channelId, { page = 0, size = 20 } = {}) {
-    return apiFetch(`/api/channels/${channelId}/posts?page=${page}&size=${size}`);
+  // 채널별 게시글 목록, Page<PostResponseDto> 그대로 반환 (비로그인 가능). query로 제목/내용 검색
+  fetchPosts(channelId, { page = 0, size = 20, query } = {}) {
+    const params = new URLSearchParams({ page, size });
+    if (query?.trim()) params.set('query', query.trim());
+    return apiFetch(`/api/channels/${channelId}/posts?${params.toString()}`);
   },
 
   // 글쓰기 (로그인 필요)

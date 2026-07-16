@@ -107,29 +107,31 @@ function ChannelManagementPage() {
         {channels.length === 0 ? (
           <p className="channel-mgmt-empty">등록된 채널이 없습니다.</p>
         ) : (
-          <table>
-            <thead>
-              <tr>
-                <th>게임</th>
-                <th>채널명</th>
-                <th>설명</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {channels.map((channel) => (
-                <tr key={channel.id}>
-                  <td>{channel.gameName ?? channel.gameId}</td>
-                  <td>{channel.name}</td>
-                  <td>{channel.description}</td>
-                  <td className="row-actions">
-                    <button type="button" onClick={() => startEdit(channel)}>수정</button>
-                    <button type="button" onClick={() => remove(channel)}>삭제</button>
-                  </td>
+          <div className="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>게임</th>
+                  <th>채널명</th>
+                  <th>설명</th>
+                  <th></th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {channels.map((channel) => (
+                  <tr key={channel.id}>
+                    <td>{channel.gameName ?? channel.gameId}</td>
+                    <td>{channel.name}</td>
+                    <td>{channel.description}</td>
+                    <td className="row-actions">
+                      <button type="button" onClick={() => startEdit(channel)}>수정</button>
+                      <button type="button" onClick={() => remove(channel)}>삭제</button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         )}
       </section>
     </div>

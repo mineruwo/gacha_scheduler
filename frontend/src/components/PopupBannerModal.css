@@ -1,0 +1,72 @@
+.popup-banner-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 16px;
+}
+
+.popup-banner {
+  position: relative;
+  width: 100%;
+  max-width: 360px;
+  background: var(--surface-default);
+  color: var(--text-color);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.popup-banner img {
+  display: block;
+  width: 100%;
+  max-height: 320px;
+  object-fit: cover;
+}
+
+.popup-banner-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  font-size: 1.1em;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.popup-banner-body {
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.popup-banner-body h3 {
+  margin: 0;
+  font-size: 1.05em;
+}
+
+.popup-banner-dismiss {
+  align-self: flex-start;
+  background: none;
+  border: none;
+  color: var(--text-color);
+  opacity: 0.6;
+  font-size: 0.85em;
+  cursor: pointer;
+  padding: 0;
+}
+
+.popup-banner-dismiss:hover {
+  opacity: 1;
+  text-decoration: underline;
+}

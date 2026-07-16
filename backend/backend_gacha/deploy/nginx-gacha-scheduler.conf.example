@@ -1,0 +1,17 @@
+# /etc/nginx/sites-available/gacha-scheduler 로 배치 (Ubuntu) 또는
+# /etc/nginx/conf.d/gacha-scheduler.conf (Amazon Linux). <api-domain>을 실제 도메인으로 교체.
+# TLS 인증서는 certbot(Let's Encrypt)으로 발급: certbot --nginx -d <api-domain>
+# 발급 전에는 아래 443 server 블록을 지우고 80 블록만으로 먼저 기동 → certbot이 443 블록을 자동 추가해준다.
+
+server {
+    listen 80;
+    server_name <api-domain>;
+
+    location / {
+        proxy_pass http://127.0.0.1:8080;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}

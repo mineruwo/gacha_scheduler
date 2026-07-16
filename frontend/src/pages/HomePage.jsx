@@ -1,13 +1,35 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import useUserAgent from '../hooks/useUserAgent';
+import { announcementApi } from '../api/announcementApi';
+import './HomePage.css';
 
 function HomePage() {
   const userAgent = useUserAgent();
+  const [notices, setNotices] = useState([]);
+
+  useEffect(() => {
+    announcementApi.fetchActive('NOTICE').then(setNotices).catch(() => {});
+  }, []);
 
   return (
-    <div style={{ background: 'blue' }}>
+    <div className="home-page">
       <h1>환영합니다!</h1>
-      <p>가챠 스케줄러 플랫폼에 오신 것을 환영합니다. 왼쪽 사이드바를 통해 다양한 기능을 이용해 보세요.</p>
+      <p>가챠 스케줄러 플랫폼에 오신 것을 환영합니다. 하단(모바일) 또는 좌측(PC) 메뉴를 통해 다양한 기능을 이용해 보세요.</p>
+
+      {notices.length > 0 && (
+        <section className="home-notices">
+          <h2>공지사항</h2>
+          <ul>
+            {notices.map((notice) => (
+              <li key={notice.id}>
+                <strong>{notice.title}</strong>
+                {notice.content && <p>{notice.content}</p>}
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
       <h2>접속 환경 정보:</h2>
       <ul>
         <li>모바일: {userAgent.isMobile ? '예' : '아니오'}</li>

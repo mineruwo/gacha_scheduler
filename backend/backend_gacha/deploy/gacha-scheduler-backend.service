@@ -1,0 +1,20 @@
+[Unit]
+Description=Gacha Scheduler backend (Spring Boot)
+After=network.target
+
+[Service]
+Type=simple
+User=gacha
+Group=gacha
+WorkingDirectory=/opt/gacha-scheduler
+EnvironmentFile=/etc/gacha-scheduler/backend.env
+Environment=SPRING_PROFILES_ACTIVE=prod
+ExecStart=/usr/bin/java -jar /opt/gacha-scheduler/backend_gacha.jar
+SuccessExitStatus=143
+Restart=on-failure
+RestartSec=5
+# 힙을 서버 사양(1~2GB RAM 소형 서버 기준)에 맞춰 제한 — 필요시 서버 스펙 바뀌면 같이 조정
+Environment=JAVA_TOOL_OPTIONS=-Xmx512m
+
+[Install]
+WantedBy=multi-user.target

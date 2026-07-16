@@ -88,10 +88,23 @@ class PostServiceTest {
         PostResponseDto second = postService.createPost(authorId, requestFor(channelId, "둘째 글", "내용"));
         postService.createPost(authorId, requestFor(otherChannelId, "다른 채널 글", "내용"));
 
-        var page = postService.getPostsByChannel(channelId, PageRequest.of(0, 10));
+        var page = postService.getPostsByChannel(channelId, null, PageRequest.of(0, 10));
 
         assertThat(page.getTotalElements()).isEqualTo(2);
         assertThat(page.getContent().get(0).getId()).isEqualTo(second.getId());
+    }
+
+    @Test
+    void getPostsByChannelWithQueryMatchesTitleOrContentCaseInsensitively() {
+        Long channelId = createChannel();
+        Long authorId = createUser();
+        postService.createPost(authorId, requestFor(channelId, "Purina 공략", "내용"));
+        postService.createPost(authorId, requestFor(channelId, "다른 글", "여기 PURINA 언급"));
+        postService.createPost(authorId, requestFor(channelId, "무관한 글", "무관한 내용"));
+
+        var page = postService.getPostsByChannel(channelId, "purina", PageRequest.of(0, 10));
+
+        assertThat(page.getTotalElements()).isEqualTo(2);
     }
 
     @Test

@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gacha Scheduler - Mobile App Prototype</title>
+    <style>
+        :root {
+            --bg-color: #f3f4f6; /* Light theme for mobile standard */
+            --surface-color: #ffffff;
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --text-main: #1f2937;
+            --text-muted: #6b7280;
+            --border-color: #e5e7eb;
+            --ad-bg: #fffbeb;
+            --ad-border: #f59e0b;
+            --nav-bg: #ffffff;
+            --nav-active: #1f2937;
+            --nav-inactive: #9ca3af;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #111; /* Dark background to highlight the phone frame */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Mobile Device Frame Mockup */
+        .phone-frame {
+            width: 375px;
+            height: 812px;
+            background-color: var(--bg-color);
+            border-radius: 40px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 10px #333;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* Status Bar Mockup */
+        .status-bar {
+            height: 44px;
+            background: var(--primary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 24px;
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* App Bar */
+        .app-bar {
+            background: var(--primary);
+            color: white;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .app-bar-title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            padding-bottom: 20px;
+            background: var(--bg-color);
+        }
+
+        /* Category Tabs */
+        .tabs {
+            background: var(--surface-color);
+            display: flex;
+            padding: 12px 16px;
+            gap: 12px;
+            border-bottom: 1px solid var(--border-color);
+            overflow-x: auto;
+        }
+
+        .tab {
+            padding: 6px 16px;
+            background: var(--bg-color);
+            color: var(--text-muted);
+            border-radius: 999px;
+            font-size: 14px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .tab.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Post List */
+        .post-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: 12px;
+        }
+
+        .post-card {
+            background: var(--surface-color);
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .post-tag {
+            font-size: 12px;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+        .tag-guide { background: #dbeafe; color: #1e40af; }
+        .tag-free { background: #f3f4f6; color: #374151; }
+
+        .post-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-main);
+            margin: 4px 0;
+            line-height: 1.4;
+        }
+
+        .post-meta {
+            display: flex;
+            gap: 12px;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* Native Ad */
+        .native-ad {
+            background: var(--ad-bg);
+            border: 1px solid var(--ad-border);
+            border-radius: 12px;
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .ad-badge {
+            background: var(--ad-border);
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        /* Floating Action Button (FAB) */
+        .fab {
+            position: absolute;
+            bottom: 80px;
+            right: 16px;
+            width: 56px;
+            height: 56px;
+            background: var(--primary);
+            color: white;
+            border-radius: 28px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+            font-size: 24px;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            height: 60px;
+            background: var(--nav-bg);
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            color: var(--nav-inactive);
+            font-size: 10px;
+            font-weight: 500;
+        }
+
+        .nav-item.active {
+            color: var(--nav-active);
+        }
+
+        /* SVG Icons Mockup */
+        .icon {
+            width: 24px;
+            height: 24px;
+            background-color: currentColor;
+            mask-size: contain;
+            -webkit-mask-size: contain;
+            mask-repeat: no-repeat;
+            -webkit-mask-repeat: no-repeat;
+            mask-position: center;
+            -webkit-mask-position: center;
+        }
+        
+        .icon-calendar { -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>'); }
+        .icon-gacha { -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>'); }
+        .icon-home { -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>'); }
+        .icon-board { -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>'); }
+        .icon-user { -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>'); }
+        
+    </style>
+</head>
+<body>
+
+    <!-- Phone Frame -->
+    <div class="phone-frame">
+        
+        <!-- Status Bar -->
+        <div class="status-bar">
+            <span>13:28</span>
+            <span style="display: flex; gap: 4px; align-items: center;">
+                <span style="font-size: 10px;">5G</span>
+                <span style="display: inline-block; width: 18px; height: 10px; border: 1px solid white; border-radius: 2px; position: relative;">
+                    <span style="position: absolute; width: 70%; height: 100%; background: white;"></span>
+                </span>
+            </span>
+        </div>
+
+        <!-- App Bar -->
+        <div class="app-bar">
+            <div style="font-size: 20px;">☰</div>
+            <div class="app-bar-title">공략 게시판</div>
+            <div style="font-size: 20px;">🔍</div>
+        </div>
+
+        <!-- Channel Select & Tabs -->
+        <div style="background: var(--surface-color); padding: 12px 16px; border-bottom: 1px solid var(--border-color); font-weight: bold; display: flex; justify-content: space-between;">
+            <span>원신 채널 ▾</span>
+            <span style="color: var(--text-muted); font-weight: normal; font-size: 14px;">필터 ▾</span>
+        </div>
+        
+        <div class="tabs">
+            <div class="tab active">전체</div>
+            <div class="tab">개념글 👑</div>
+            <div class="tab">공략</div>
+            <div class="tab">자유</div>
+            <div class="tab">질문</div>
+        </div>
+
+        <!-- Content Area -->
+        <div class="content">
+            <div class="post-list">
+                
+                <div class="post-card">
+                    <div class="post-header">
+                        <span class="post-tag tag-guide">공략</span>
+                        <span class="meta-item">👑 베스트</span>
+                    </div>
+                    <div class="post-title">[뉴비필독] 5.0 버전 나타 진입 전 준비물 총정리 (3)</div>
+                    <div class="post-meta">
+                        <span>작성자: <strong>고인물</strong></span>
+                        <span>조회 1.2k</span>
+                        <span style="color: #ef4444;">추천 105</span>
+                    </div>
+                </div>
+
+                <div class="post-card">
+                    <div class="post-header">
+                        <span class="post-tag tag-free">자유</span>
+                    </div>
+                    <div class="post-title">오늘 가챠 돌렸는데 픽뚫 실화냐... (12)</div>
+                    <div class="post-meta">
+                        <span>작성자: <strong>운없는자</strong></span>
+                        <span>조회 45</span>
+                        <span style="color: #ef4444;">추천 2</span>
+                    </div>
+                </div>
+
+                <!-- Native Ad Insert -->
+                <div class="native-ad">
+                    <div style="width: 60px; height: 60px; background: rgba(245, 158, 11, 0.2); border-radius: 8px; display: flex; justify-content: center; align-items: center; font-size: 24px;">🎮</div>
+                    <div style="flex: 1;">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                            <div style="font-weight: 600; color: var(--text-main); font-size: 14px;">신작 모바일 게임 사전예약</div>
+                            <span class="ad-badge">스폰서</span>
+                        </div>
+                        <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">지금 예약하고 한정판 펫 받기!</div>
+                    </div>
+                </div>
+
+                <div class="post-card">
+                    <div class="post-header">
+                        <span class="post-tag tag-guide">질문</span>
+                    </div>
+                    <div class="post-title">나히다 성유물 원마 vs 치치 세팅 질문이요</div>
+                    <div class="post-meta">
+                        <span>작성자: <strong>뉴비</strong></span>
+                        <span>조회 23</span>
+                        <span style="color: #ef4444;">추천 0</span>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+
+        <!-- Floating Action Button -->
+        <div class="fab">
+            ✏️
+        </div>
+
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav">
+            <div class="nav-item">
+                <div class="icon icon-calendar"></div>
+                일정
+            </div>
+            <div class="nav-item">
+                <div class="icon icon-gacha"></div>
+                가챠
+            </div>
+            <div class="nav-item">
+                <div class="icon icon-home"></div>
+                홈
+            </div>
+            <div class="nav-item active">
+                <div class="icon icon-board"></div>
+                게시판
+            </div>
+            <div class="nav-item">
+                <div class="icon icon-user"></div>
+                내 정보
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

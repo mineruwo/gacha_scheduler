@@ -1,10 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import ThemeToggleButton from '../components/ThemeToggleButton';
 import { useAuth } from '../context/AuthContext';
 
-function Header({ toggleTheme, theme, toggleSidebar, isMobile }) {
-  const { isAuthenticated, user, logout } = useAuth();
+function Header({ toggleSidebar, isMobile }) {
+  const { isAuthenticated, user } = useAuth();
 
   return (
     <header style={{ padding: 'calc(10px + env(safe-area-inset-top, 0px)) calc(20px + env(safe-area-inset-right, 0px)) 10px calc(20px + env(safe-area-inset-left, 0px))', background: 'var(--header-bg)', borderBottom: '1px solid var(--border-color)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: 'var(--text-color)' }}>
@@ -25,15 +24,11 @@ function Header({ toggleTheme, theme, toggleSidebar, isMobile }) {
       <nav style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
         <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', alignItems: 'center' }}>
           {isAuthenticated ? (
-            <>
-              <li style={{ marginRight: '10px' }}><Link to="/profile" style={{ textDecoration: 'none', color: 'var(--text-color)', fontWeight: 'bold' }}>{user?.name}</Link></li>
-              <li><button onClick={logout} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-color)', textDecoration: 'none' }}>로그아웃</button></li>
-            </>
+            <li><Link to="/profile" style={{ textDecoration: 'none', color: 'var(--text-color)', fontWeight: 'bold' }}>{user?.name}</Link></li>
           ) : (
             <li><Link to="/login" style={{ textDecoration: 'none', color: 'var(--text-color)' }}>로그인</Link></li>
           )}
         </ul>
-        <ThemeToggleButton toggleTheme={toggleTheme} theme={theme} />
       </nav>
     </header>
   );

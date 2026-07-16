@@ -4,6 +4,7 @@ import 'package:frontend_mobile/managers/localization_manager.dart';
 import 'package:frontend_mobile/models/gacha_banner.dart';
 import 'package:frontend_mobile/models/gacha_character.dart';
 import 'package:frontend_mobile/providers/gacha_providers.dart';
+import 'package:frontend_mobile/theme/app_theme.dart';
 
 class GachaScreen extends ConsumerWidget {
   const GachaScreen({super.key});
@@ -86,9 +87,9 @@ class _GachaBody extends ConsumerWidget {
           children: [
             DropdownButtonFormField<GachaBanner>(
               initialValue: selected,
+              isExpanded: true,
               decoration: InputDecoration(
                 labelText: l10n.getString('gacha_select_banner'),
-                border: const OutlineInputBorder(),
               ),
               items: banners
                   .map((b) => DropdownMenuItem(
@@ -157,16 +158,23 @@ class _PityCounter extends StatelessWidget {
     final l10n = LocalizationManager.instance;
     final progress = threshold > 0 ? (pityCount / threshold).clamp(0.0, 1.0) : 0.0;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text('${l10n.getString('gacha_pity_label')}: $pityCount / $threshold'),
-        const SizedBox(height: 4),
-        ClipRRect(
-          borderRadius: BorderRadius.circular(4),
-          child: LinearProgressIndicator(value: progress, minHeight: 8),
-        ),
-      ],
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      decoration: AppTheme.softCard(),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            '${l10n.getString('gacha_pity_label')}: $pityCount / $threshold',
+            style: const TextStyle(fontWeight: FontWeight.bold, color: AppColors.textPrimary),
+          ),
+          const SizedBox(height: 8),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(6),
+            child: LinearProgressIndicator(value: progress, minHeight: 10),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -179,13 +187,13 @@ class _ResultGrid extends StatelessWidget {
   static Color _rarityColor(int rarity) {
     switch (rarity) {
       case >= 5:
-        return Colors.amber;
+        return AppColors.rarity5;
       case 4:
-        return Colors.deepPurple;
+        return AppColors.rarity4;
       case 3:
-        return Colors.blue;
+        return AppColors.rarity3;
       default:
-        return Colors.blueGrey;
+        return AppColors.rarityDefault;
     }
   }
 
@@ -205,26 +213,26 @@ class _ResultGrid extends StatelessWidget {
         return Container(
           decoration: BoxDecoration(
             border: Border.all(color: color, width: 2),
-            borderRadius: BorderRadius.circular(8),
-            color: color.withValues(alpha: 0.08),
+            borderRadius: BorderRadius.circular(14),
+            color: color.withValues(alpha: 0.18),
           ),
           padding: const EdgeInsets.all(4),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.person, color: color, size: 28),
+              Icon(Icons.person_rounded, color: AppColors.textPrimary, size: 28),
               const SizedBox(height: 4),
               Text(
                 character.name,
                 textAlign: TextAlign.center,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(fontSize: 10),
+                style: const TextStyle(fontSize: 10, color: AppColors.textPrimary),
               ),
               const SizedBox(height: 2),
               Text(
                 '★${character.rarity}',
-                style: TextStyle(fontSize: 10, color: color, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 10, color: AppColors.textPrimary, fontWeight: FontWeight.bold),
               ),
             ],
           ),

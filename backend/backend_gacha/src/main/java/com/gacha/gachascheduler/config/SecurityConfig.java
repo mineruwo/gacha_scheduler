@@ -44,9 +44,10 @@ public class SecurityConfig {
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/api/auth/google", "/api/hello", "/error").permitAll()
+                .requestMatchers("/api/auth/google", "/api/auth/signup", "/api/auth/login", "/api/hello", "/error", "/actuator/health").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/games/**", "/api/schedules/**", "/api/banners/**",
-                        "/api/channels/**", "/api/posts/**").permitAll()
+                        "/api/channels/**", "/api/posts/**", "/api/users/*/calendar.ics",
+                        "/api/settings/**", "/api/announcements/**").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/banners/*/pull").permitAll()
                 .anyRequest().authenticated()
             )

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="false">localhost</domain>
+        <domain includeSubdomains="false">127.0.0.1</domain>
+        <domain includeSubdomains="false">10.0.2.2</domain>
+        <!-- NCP 실서버(TLS 적용 전, 2026-07-16). 도메인/인증서 붙으면 제거할 것 -->
+        <domain includeSubdomains="false">101.79.26.52</domain>
+    </domain-config>
+</network-security-config>

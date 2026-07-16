@@ -36,35 +36,45 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.calendar_today),
-            label: LocalizationManager.instance.getString('schedule_label'),
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          color: Theme.of(context).bottomNavigationBarTheme.backgroundColor,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.06),
+              blurRadius: 16,
+              offset: const Offset(0, -4),
+            ),
+          ],
+        ),
+        child: SafeArea(
+          child: BottomNavigationBar(
+            items: <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: const Icon(Icons.calendar_today_rounded),
+                label: LocalizationManager.instance.getString('schedule_label'),
+              ),
+              BottomNavigationBarItem(
+                icon: const Icon(Icons.casino_rounded),
+                label: LocalizationManager.instance.getString('gacha_label'),
+              ),
+              BottomNavigationBarItem(
+                icon: const Icon(Icons.home_rounded),
+                label: LocalizationManager.instance.getString('home_label'),
+              ),
+              BottomNavigationBarItem(
+                icon: const Icon(Icons.article_rounded),
+                label: LocalizationManager.instance.getString('board_label'),
+              ),
+              BottomNavigationBarItem(
+                icon: const Icon(Icons.person_rounded),
+                label: LocalizationManager.instance.getString('my_info_label'),
+              ),
+            ],
+            currentIndex: _selectedIndex,
+            onTap: _onItemTapped,
           ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.casino),
-            label: LocalizationManager.instance.getString('gacha_label'),
-          ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.home),
-            label: LocalizationManager.instance.getString('home_label'),
-          ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.article),
-            label: LocalizationManager.instance.getString('board_label'),
-          ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.person),
-            label: LocalizationManager.instance.getString('my_info_label'),
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.black,
-        unselectedItemColor: Colors.black,
-        onTap: _onItemTapped,
-        backgroundColor: Colors.grey,
-        elevation: 0,
+        ),
       ),
     );
   }

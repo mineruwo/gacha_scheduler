@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gacha Scheduler - UI Prototype</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --surface-color: #1e293b;
+            --surface-hover: #334155;
+            --primary: #3b82f6;
+            --primary-hover: #60a5fa;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #10b981;
+            --ad-bg: #f59e0b20;
+            --ad-border: #f59e0b;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        /* Glassmorphism Header */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(to right, #60a5fa, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        nav {
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--text-main);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Server Cost Progress Bar */
+        .progress-container {
+            background: var(--surface-color);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255,255,255,0.05);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .progress-bar-bg {
+            background: rgba(255,255,255,0.1);
+            height: 12px;
+            border-radius: 999px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            background: linear-gradient(90deg, var(--accent), #34d399);
+            width: 78%;
+            height: 100%;
+            border-radius: 999px;
+            box-shadow: 0 0 10px var(--accent);
+        }
+
+        /* Section Cards */
+        .card {
+            background: var(--surface-color);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        h2 {
+            margin-top: 0;
+            font-size: 1.25rem;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Board Table */
+        .board-list {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .board-list th {
+            text-align: left;
+            padding: 1rem;
+            color: var(--text-muted);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.875rem;
+        }
+
+        .board-list td {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            transition: background 0.2s;
+        }
+
+        .board-list tr:hover {
+            background: var(--surface-hover);
+            cursor: pointer;
+        }
+
+        .tag {
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .tag.guide { background: rgba(59, 130, 246, 0.2); color: #93c5fd; }
+        .tag.free { background: rgba(148, 163, 184, 0.2); color: #cbd5e1; }
+        .tag.leak { background: rgba(239, 68, 68, 0.2); color: #fca5a5; }
+
+        /* Ads */
+        .ad-banner {
+            background: var(--ad-bg);
+            border: 1px dashed var(--ad-border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            color: var(--ad-border);
+            font-weight: 600;
+            margin: 1rem 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Buttons */
+        .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+        }
+
+        /* Simulator Grid */
+        .gacha-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .gacha-item {
+            aspect-ratio: 1;
+            background: rgba(0,0,0,0.2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .gacha-item.legendary {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(217, 119, 6, 0.4));
+            border-color: #f59e0b;
+            color: #fbbf24;
+            font-weight: 800;
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.2);
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">Gacha Scheduler</div>
+        <nav>
+            <a href="#" class="active">스케줄러</a>
+            <a href="#">공략 게시판</a>
+            <a href="#">가챠 시뮬레이터</a>
+        </nav>
+        <div style="color: var(--text-muted); font-weight: 600;">유저 프로필 👤</div>
+    </header>
+
+    <div class="container">
+        
+        <!-- Server Cost Progress -->
+        <div class="progress-container">
+            <div class="progress-header">
+                <span>❤️ 이번 달 서버 유지비 후원 현황</span>
+                <span style="color: var(--accent);">78% 달성!</span>
+            </div>
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill"></div>
+            </div>
+            <div style="margin-top: 0.75rem; font-size: 0.875rem; color: var(--text-muted); text-align: right;">
+                도움이 되셨다면 애드블록을 해제해 주세요 🙏
+            </div>
+        </div>
+
+        <!-- Board Section -->
+        <div class="card">
+            <h2>📝 공략 게시판 (원신 채널)</h2>
+            <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                <span class="tag" style="background: var(--text-main); color: var(--bg-color);">전체</span>
+                <span class="tag" style="background: rgba(255,255,255,0.1);">개념글 👑</span>
+                <span class="tag guide">공략</span>
+            </div>
+            
+            <table class="board-list">
+                <thead>
+                    <tr>
+                        <th style="width: 10%;">분류</th>
+                        <th style="width: 60%;">제목</th>
+                        <th style="width: 15%;">작성자</th>
+                        <th style="width: 15%;">추천</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="tag guide">공략</span></td>
+                        <td>👑 [뉴비필독] 원신 리세마라 가이드 완결판</td>
+                        <td>고인물</td>
+                        <td style="color: var(--accent); font-weight: 600;">+ 55</td>
+                    </tr>
+                    <tr>
+                        <td><span class="tag free">자유</span></td>
+                        <td>나히다 성유물 세팅 어떻게 하나요?</td>
+                        <td>뉴비</td>
+                        <td>+ 2</td>
+                    </tr>
+                    
+                    <!-- Native Ad Insert -->
+                    <tr>
+                        <td colspan="4" style="padding: 0;">
+                            <div class="ad-banner">
+                                📢 [AD] 구글 애드센스 인피드(In-Feed) 네이티브 광고 영역
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><span class="tag leak">유출</span></td>
+                        <td>⚠️ 5.0 버전 신규 픽업 캐릭터 찌라시</td>
+                        <td>정보통</td>
+                        <td>+ 12</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Simulator Section -->
+        <div class="card">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h2>🎰 가챠 시뮬레이터</h2>
+                <span style="color: var(--text-muted); font-size: 0.875rem;">천장 스택: <strong>79 / 90</strong></span>
+            </div>
+            
+            <div class="gacha-grid">
+                <div class="gacha-item">⭐3 무기</div>
+                <div class="gacha-item">⭐3 무기</div>
+                <div class="gacha-item">⭐4 캐릭터</div>
+                <div class="gacha-item">⭐3 무기</div>
+                <div class="gacha-item">⭐3 무기</div>
+                <div class="gacha-item">⭐3 무기</div>
+                <div class="gacha-item">⭐3 무기</div>
+                <div class="gacha-item legendary">⭐5 나히다!</div>
+                <div class="gacha-item">⭐3 무기</div>
+                <div class="gacha-item">⭐4 무기</div>
+            </div>
+
+            <div style="margin-top: 2rem; display: flex; gap: 1rem; justify-content: center;">
+                <button class="btn" style="background: rgba(255,255,255,0.1);">1회 뽑기</button>
+                <button class="btn">10회 뽑기</button>
+            </div>
+            
+            <!-- Rewarded Ad Insert -->
+            <div class="ad-banner" style="margin-top: 2rem; border-color: #3b82f6; background: rgba(59, 130, 246, 0.1); cursor: pointer; color: #60a5fa;">
+                ▶️ [광고 보고 10연차 쿨타임 무시하고 돌리기] (보상형 비디오 광고)
+            </div>
+        </div>
+    </div>
+</body>
+</html>

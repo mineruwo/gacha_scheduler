@@ -17,5 +17,20 @@
   "gacha_pull_error": "Pull failed. Please try again later",
   "gacha_retry": "Retry",
   "board_screen_title": "Strategy Board Screen",
-  "my_info_screen_title": "My Info Screen"
+  "my_info_screen_title": "My Info Screen",
+  "login_screen_title": "Log In",
+  "login_tab_login": "Log In",
+  "login_tab_signup": "Sign Up",
+  "login_email_label": "Email",
+  "login_password_label": "Password",
+  "login_name_label": "Name",
+  "login_submit_login": "Log In",
+  "login_submit_signup": "Sign Up",
+  "login_success": "Logged in successfully",
+  "my_info_login_required": "Login required",
+  "my_info_login_cta": "Log In / Sign Up",
+  "my_info_logout": "Log Out",
+  "schedule_today_button": "Today",
+  "schedule_load_error": "Failed to load schedules",
+  "schedule_no_events": "No events to display"
 }

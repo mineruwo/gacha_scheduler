@@ -4,4 +4,9 @@
          to allow setting breakpoints, to provide hot reload, etc.
     -->
     <uses-permission android:name="android.permission.INTERNET"/>
+
+    <!-- 디버그 빌드에서만 localhost/10.0.2.2 로컬 백엔드 접속을 위해 cleartext(HTTP) 허용.
+         Android 15(targetSdk 35)부터 cleartext가 기본 차단돼서 필요 — mobile_shell에서 겪은 것과 동일 이슈.
+         릴리스 빌드에는 이 설정이 포함되지 않는다. -->
+    <application android:networkSecurityConfig="@xml/network_security_config" />
 </manifest>

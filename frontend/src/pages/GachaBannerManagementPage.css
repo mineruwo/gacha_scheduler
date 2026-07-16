@@ -1,0 +1,134 @@
+.gacha-mgmt {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.gacha-mgmt h1 {
+  font-size: 1.8em;
+}
+
+.gacha-mgmt h2 {
+  font-size: 1.3em;
+}
+
+.gacha-mgmt section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  background: var(--surface-default);
+}
+
+.gacha-mgmt .table-scroll {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.gacha-mgmt table {
+  width: 100%;
+  min-width: 480px;
+  border-collapse: collapse;
+  font-size: 0.9em;
+}
+
+.gacha-mgmt th,
+.gacha-mgmt td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border-color);
+  text-align: left;
+  white-space: nowrap;
+}
+
+.gacha-mgmt tbody tr[onclick] {
+  cursor: pointer;
+}
+
+.gacha-mgmt tbody tr.selected-row {
+  background: var(--primary-color-translucent, rgba(99, 102, 241, 0.12));
+}
+
+.gacha-mgmt-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+  align-items: end;
+}
+
+.gacha-mgmt-form .full-width {
+  grid-column: 1 / -1;
+}
+
+.gacha-mgmt-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.85em;
+}
+
+.gacha-mgmt-form label.checkbox {
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+}
+
+.gacha-mgmt-form input[type='text'],
+.gacha-mgmt-form input[type='number'],
+.gacha-mgmt-form input[type='datetime-local'],
+.gacha-mgmt-form select {
+  padding: 8px 10px;
+  font-family: inherit;
+  font-size: 1em;
+  color: var(--text-color);
+  background: var(--btn-default);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+}
+
+.gacha-mgmt-actions {
+  display: flex;
+  gap: 8px;
+  grid-column: 1 / -1;
+}
+
+.gacha-mgmt-actions .submit {
+  background: var(--primary-color);
+  color: #fff;
+}
+
+.gacha-mgmt .row-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.gacha-mgmt .row-actions button {
+  padding: 4px 10px;
+  font-size: 0.85em;
+}
+
+.gacha-mgmt-error {
+  color: #d64545;
+}
+
+.gacha-mgmt-empty {
+  opacity: 0.6;
+}
+
+.gacha-mgmt-hint {
+  font-size: 0.85em;
+  opacity: 0.7;
+}
+
+.gacha-mgmt-preview {
+  padding: 10px;
+  border: 1px dashed var(--border-color);
+  border-radius: 8px;
+}
+
+.gacha-mgmt-warning {
+  color: #c98a1c;
+  font-size: 0.85em;
+}

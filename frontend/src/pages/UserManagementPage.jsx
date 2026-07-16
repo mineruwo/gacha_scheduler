@@ -70,38 +70,40 @@ function UserManagementPage() {
       {users.length === 0 ? (
         <p className="user-mgmt-empty">조건에 맞는 유저가 없습니다.</p>
       ) : (
-        <table>
-          <thead>
-            <tr>
-              <th>닉네임</th>
-              <th>이메일</th>
-              <th>가입일</th>
-              <th>상태</th>
-              <th>역할</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {users.map((user) => (
-              <tr key={user.id}>
-                <td>{user.name}</td>
-                <td>{user.email}</td>
-                <td>{user.createdAt ? new Date(user.createdAt).toLocaleDateString() : ''}</td>
-                <td>{user.isDeleted ? '정지됨' : '활성'}</td>
-                <td>
-                  <select value={user.role} onChange={(e) => changeRole(user, e.target.value)}>
-                    {ROLES.map((r) => (
-                      <option key={r.value} value={r.value}>{r.label}</option>
-                    ))}
-                  </select>
-                </td>
-                <td className="row-actions">
-                  <button type="button" disabled={user.isDeleted} onClick={() => suspend(user)}>정지</button>
-                </td>
+        <div className="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>닉네임</th>
+                <th>이메일</th>
+                <th>가입일</th>
+                <th>상태</th>
+                <th>역할</th>
+                <th></th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {users.map((user) => (
+                <tr key={user.id}>
+                  <td>{user.name}</td>
+                  <td>{user.email}</td>
+                  <td>{user.createdAt ? new Date(user.createdAt).toLocaleDateString() : ''}</td>
+                  <td>{user.isDeleted ? '정지됨' : '활성'}</td>
+                  <td>
+                    <select value={user.role} onChange={(e) => changeRole(user, e.target.value)}>
+                      {ROLES.map((r) => (
+                        <option key={r.value} value={r.value}>{r.label}</option>
+                      ))}
+                    </select>
+                  </td>
+                  <td className="row-actions">
+                    <button type="button" disabled={user.isDeleted} onClick={() => suspend(user)}>정지</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
   );

@@ -33,6 +33,30 @@
   border-color: var(--primary-color);
 }
 
+.board-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.board-search {
+  display: flex;
+  gap: 8px;
+}
+
+.board-search input {
+  padding: 8px 10px;
+  font-family: inherit;
+  font-size: 1em;
+  color: var(--text-color);
+  background: var(--btn-default);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  min-width: 200px;
+}
+
 .board-write-link {
   align-self: flex-end;
 }

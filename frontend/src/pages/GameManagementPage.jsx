@@ -245,31 +245,33 @@ function GameManagementPage() {
         {games.length === 0 ? (
           <p className="game-mgmt-empty">등록된 게임이 없습니다.</p>
         ) : (
-          <table>
-            <thead>
-              <tr>
-                <th>게임명</th>
-                <th>코드</th>
-                <th>서비스 중</th>
-                <th>일정 관리</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {games.map((game) => (
-                <tr key={game.id}>
-                  <td>{game.title}</td>
-                  <td>{game.gameCode}</td>
-                  <td>{game.isService ? 'O' : 'X'}</td>
-                  <td>{game.canManageSchedule ? 'O' : 'X'}</td>
-                  <td className="row-actions">
-                    <button type="button" onClick={() => startEditGame(game)}>수정</button>
-                    <button type="button" onClick={() => removeGame(game)}>삭제</button>
-                  </td>
+          <div className="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>게임명</th>
+                  <th>코드</th>
+                  <th>서비스 중</th>
+                  <th>일정 관리</th>
+                  <th></th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {games.map((game) => (
+                  <tr key={game.id}>
+                    <td>{game.title}</td>
+                    <td>{game.gameCode}</td>
+                    <td>{game.isService ? 'O' : 'X'}</td>
+                    <td>{game.canManageSchedule ? 'O' : 'X'}</td>
+                    <td className="row-actions">
+                      <button type="button" onClick={() => startEditGame(game)}>수정</button>
+                      <button type="button" onClick={() => removeGame(game)}>삭제</button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         )}
       </section>
 
@@ -357,33 +359,35 @@ function GameManagementPage() {
         {schedules.length === 0 ? (
           <p className="game-mgmt-empty">최근 -1개월 ~ +6개월 범위에 일정이 없습니다.</p>
         ) : (
-          <table>
-            <thead>
-              <tr>
-                <th>게임</th>
-                <th>제목</th>
-                <th>분류</th>
-                <th>시작</th>
-                <th>종료</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {schedules.map((schedule) => (
-                <tr key={schedule.id}>
-                  <td>{schedule.gameTitle ?? schedule.gameCode}</td>
-                  <td>{schedule.title}</td>
-                  <td>{CATEGORY_LABELS[schedule.category] ?? schedule.category}</td>
-                  <td>{toLocalInput(schedule.startAt).replace('T', ' ')}</td>
-                  <td>{schedule.endAt ? toLocalInput(schedule.endAt).replace('T', ' ') : '미정'}</td>
-                  <td className="row-actions">
-                    <button type="button" onClick={() => startEditSchedule(schedule)}>수정</button>
-                    <button type="button" onClick={() => removeSchedule(schedule)}>삭제</button>
-                  </td>
+          <div className="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>게임</th>
+                  <th>제목</th>
+                  <th>분류</th>
+                  <th>시작</th>
+                  <th>종료</th>
+                  <th></th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {schedules.map((schedule) => (
+                  <tr key={schedule.id}>
+                    <td>{schedule.gameTitle ?? schedule.gameCode}</td>
+                    <td>{schedule.title}</td>
+                    <td>{CATEGORY_LABELS[schedule.category] ?? schedule.category}</td>
+                    <td>{toLocalInput(schedule.startAt).replace('T', ' ')}</td>
+                    <td>{schedule.endAt ? toLocalInput(schedule.endAt).replace('T', ' ') : '미정'}</td>
+                    <td className="row-actions">
+                      <button type="button" onClick={() => startEditSchedule(schedule)}>수정</button>
+                      <button type="button" onClick={() => removeSchedule(schedule)}>삭제</button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         )}
       </section>
     </div>

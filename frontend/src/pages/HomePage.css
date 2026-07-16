@@ -1,0 +1,29 @@
+.home-page {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.home-notices {
+  padding: 14px 16px;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  background: var(--surface-default);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.home-notices ul {
+  margin: 0;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.home-notices p {
+  margin: 4px 0 0;
+  opacity: 0.8;
+  font-size: 0.9em;
+}

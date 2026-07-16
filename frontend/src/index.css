@@ -100,13 +100,6 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-/* Remove media query as we are using a class for dark mode */
-/* @media (prefers-color-scheme: light) {
-  :root {
-  --main-padding: 15px; /* Default padding for smaller screens */
-  /* ... existing root variables ... */
-}
-
 @media (min-width: 768px) {
   :root[color-theme='light'], :root[color-theme='dark'] {
     --main-padding: 20px; /* Padding for medium screens */
@@ -118,13 +111,3 @@ button:focus-visible {
     --main-padding: 40px; /* Padding for larger screens */
   }
 }
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
-} */
